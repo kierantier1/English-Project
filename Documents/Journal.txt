@@ -102,4 +102,4 @@ December 11, 2017
 -not working as of yet, working more on it.
 
 December 13, 2017
--
+-Going to split off animation as a different project
