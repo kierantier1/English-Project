@@ -12,10 +12,10 @@ import com.badlogic.gdx.graphics.Texture;
 import gdx.menu.GamMenu;
 
 public class ScrGameover implements Screen, InputProcessor {
-
+    Dude dud1;
     Button btnMenu, btnPlay;
     OrthographicCamera oc;
-    Texture txNamQ;
+    Texture txNamQ, txSign;
     GamMenu gamMenu;
     SpriteBatch batch;
     Sprite sprNamQuit;
@@ -37,6 +37,7 @@ public class ScrGameover implements Screen, InputProcessor {
         sprNamQuit.setFlip(false, true);
         sprNamQuit.setSize(60, 80);
         sprNamQuit.setPosition(Gdx.graphics.getWidth() / 2 - 30, Gdx.graphics.getHeight() / 2 - 40);
+        dud1 = new Dude(50, 100, 200, 250);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -44,11 +45,23 @@ public class ScrGameover implements Screen, InputProcessor {
     public void render(float Delta) {
         Gdx.gl.glClearColor(0, 1, 1, 1); //Cyan background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            dud1.setX(dud1.getX()-5);
+        } if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            dud1.setX(dud1.getX()+5);
+        } if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            dud1.setY(dud1.getY()-5);
+        } if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            dud1.setY(dud1.getY()+5);
+        }
+        
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
         btnPlay.draw(batch);
         btnMenu.draw(batch);
         sprNamQuit.draw(batch);
+        dud1.draw(batch);
         batch.end();
     }
 
@@ -96,10 +109,10 @@ public class ScrGameover implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
-            if (isHit(screenX, screenY, btnPlay)) {
+            if (isHitB(screenX, screenY, btnPlay)) {
                 gamMenu.updateState(1);
                 System.out.println("Hit Play");
-            } else if (isHit(screenX, screenY, btnMenu)) {
+            } else if (isHitB(screenX, screenY, btnMenu)) {
                 gamMenu.updateState(0);
                 System.out.println("Hit Menu");
             }
@@ -127,7 +140,7 @@ public class ScrGameover implements Screen, InputProcessor {
         return false;
     }
 
-    public boolean isHit(int nX, int nY, Sprite sprBtn) {
+    public boolean isHitB(int nX, int nY, Sprite sprBtn) {
         if (nX > sprBtn.getX() && nX < sprBtn.getX() + sprBtn.getWidth() && nY > sprBtn.getY() && nY < sprBtn.getY() + sprBtn.getHeight()) {
             return true;
         } else {

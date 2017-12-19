@@ -103,3 +103,7 @@ December 11, 2017
 
 December 13, 2017
 -Going to split off animation as a different project
+
+December 19, 2017
+-Coming back from animation for a while, working on a Text Box that shows up when you hit a sign
+-Probably going to make a class for it
