@@ -18,8 +18,8 @@ public class ScrGameover implements Screen, InputProcessor {
     Texture txNamQ, txSign;
     GamMenu gamMenu;
     SpriteBatch batch;
-    Sprite sprNamQuit;
-
+    Sprite sprNamQuit, sprSign;
+    int nTrig = 0;
     public ScrGameover(GamMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
@@ -38,6 +38,10 @@ public class ScrGameover implements Screen, InputProcessor {
         sprNamQuit.setSize(60, 80);
         sprNamQuit.setPosition(Gdx.graphics.getWidth() / 2 - 30, Gdx.graphics.getHeight() / 2 - 40);
         dud1 = new Dude(50, 100, 200, 250);
+        txSign = new Texture("Sign.png");
+        sprSign = new Sprite(txSign);
+        sprSign.setPosition(150, 150);
+        sprSign.setSize(50,50);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -55,6 +59,13 @@ public class ScrGameover implements Screen, InputProcessor {
         } if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             dud1.setY(dud1.getY()+5);
         }
+
+        if(isHitS(dud1, sprSign) && nTrig != 1){
+            System.out.println("Read Sign");
+            nTrig = 1;
+        } else if(! isHitS(dud1, sprSign)){
+            nTrig = 0;
+        }
         
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
@@ -62,6 +73,7 @@ public class ScrGameover implements Screen, InputProcessor {
         btnMenu.draw(batch);
         sprNamQuit.draw(batch);
         dud1.draw(batch);
+        sprSign.draw(batch);
         batch.end();
     }
 
@@ -146,5 +158,8 @@ public class ScrGameover implements Screen, InputProcessor {
         } else {
             return false;
         }
+    }
+    public boolean isHitS(Sprite spr1, Sprite spr2) {
+        return spr1.getBoundingRectangle().overlaps(spr2.getBoundingRectangle());
     }
 }
