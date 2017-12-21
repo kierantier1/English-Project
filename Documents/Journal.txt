@@ -111,3 +111,4 @@ December 19, 2017
 December 20, 2017
 -Text box means BitmapFont, which means upside-down text.  Can't flip it, but I can put the text right into the box sprite
 -Hit detection for Sign implemented, can only trigger sign once per hit
+-Sign is working properly.  Only appears when player hits the sign

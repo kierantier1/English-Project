@@ -15,11 +15,11 @@ public class ScrGameover implements Screen, InputProcessor {
     Dude dud1;
     Button btnMenu, btnPlay;
     OrthographicCamera oc;
-    Texture txNamQ, txSign;
+    Texture txNamQ, txSign, txBox;
     GamMenu gamMenu;
     SpriteBatch batch;
-    Sprite sprNamQuit, sprSign;
-    int nTrig = 0;
+    Sprite sprNamQuit, sprSign, sprBox;
+    int nTrig = 0; //Trigger variable for sign
     public ScrGameover(GamMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
@@ -42,6 +42,12 @@ public class ScrGameover implements Screen, InputProcessor {
         sprSign = new Sprite(txSign);
         sprSign.setPosition(150, 150);
         sprSign.setSize(50,50);
+        sprSign.setFlip(false, true);
+        txBox = new Texture("Textbox.png");
+        sprBox = new Sprite(txBox);
+        sprBox.setSize(150, 75);
+        sprBox.setPosition(Gdx.graphics.getWidth()/2 - sprBox.getWidth()/2, Gdx.graphics.getHeight() - sprBox.getHeight());
+        sprBox.setFlip(false, true);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -72,8 +78,11 @@ public class ScrGameover implements Screen, InputProcessor {
         btnPlay.draw(batch);
         btnMenu.draw(batch);
         sprNamQuit.draw(batch);
-        dud1.draw(batch);
         sprSign.draw(batch);
+        dud1.draw(batch);
+        if(nTrig == 1){
+            sprBox.draw(batch);
+        }
         batch.end();
     }
 
