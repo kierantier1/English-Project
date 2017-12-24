@@ -2,7 +2,7 @@ package gdx.menu;
 import com.badlogic.gdx.Game;
 import gdx.menu.Screens.ScrMenu;
 import gdx.menu.Screens.ScrPlay;
-import gdx.menu.Screens.ScrGameover;
+import gdx.menu.Screens.ScrSign;
 import gdx.menu.Screens.ScrAnimation;
 
 
@@ -11,7 +11,7 @@ import gdx.menu.Screens.ScrAnimation;
 public class GamMenu extends Game {
     ScrMenu scrMenu;
     ScrPlay scrPlay;
-    ScrGameover scrGameover;
+    ScrSign scrSign;
     ScrAnimation scrAnimation;
     int nScreen; // 0 for menu, 1 for play, 2 for gameover, 3 for options
     
@@ -22,7 +22,7 @@ public class GamMenu extends Game {
         } else if (nScreen == 1) {
             setScreen(scrPlay);
         } else if (nScreen ==2) {
-            setScreen(scrGameover);
+            setScreen(scrSign);
         } else if (nScreen == 3){
             setScreen(scrAnimation);
         }
@@ -34,7 +34,7 @@ public class GamMenu extends Game {
         // notice that "this" is passed to each screen. Each screen now has access to methods within the "game" master program
         scrMenu = new ScrMenu(this);
         scrPlay = new ScrPlay(this);
-        scrGameover = new ScrGameover(this);
+        scrSign = new ScrSign(this);
         scrAnimation = new ScrAnimation(this);
         updateState(0);
     }

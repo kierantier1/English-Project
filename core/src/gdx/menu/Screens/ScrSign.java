@@ -11,16 +11,16 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Texture;
 import gdx.menu.GamMenu;
 
-public class ScrGameover implements Screen, InputProcessor {
+public class ScrSign implements Screen, InputProcessor {
     Dude dud1;
     Button btnMenu, btnPlay;
     OrthographicCamera oc;
-    Texture txNamQ, txSign, txBox;
+    Texture txNamS, txSign, txBox;
     GamMenu gamMenu;
     SpriteBatch batch;
-    Sprite sprNamQuit, sprSign, sprBox;
+    Sprite sprNamSign, sprSign, sprBox;
     int nTrig = 0; //Trigger variable for sign
-    public ScrGameover(GamMenu _gamMenu) {  //Referencing the main class.
+    public ScrSign(GamMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
 
@@ -32,11 +32,11 @@ public class ScrGameover implements Screen, InputProcessor {
         batch = new SpriteBatch();
         btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Play.jpg");
         btnMenu = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "Menu.jpg");
-        txNamQ = new Texture("Q.jpg");
-        sprNamQuit = new Sprite(txNamQ);
-        sprNamQuit.setFlip(false, true);
-        sprNamQuit.setSize(60, 80);
-        sprNamQuit.setPosition(Gdx.graphics.getWidth() / 2 - 30, Gdx.graphics.getHeight() / 2 - 40);
+        txNamS = new Texture("S.png");
+        sprNamSign = new Sprite(txNamS);
+        sprNamSign.setFlip(false, true);
+        sprNamSign.setSize(60, 80);
+        sprNamSign.setPosition(Gdx.graphics.getWidth() / 2 - 30, Gdx.graphics.getHeight() / 2 - 40);
         dud1 = new Dude(50, 100, 200, 250);
         txSign = new Texture("Sign.png");
         sprSign = new Sprite(txSign);
@@ -77,7 +77,7 @@ public class ScrGameover implements Screen, InputProcessor {
         batch.setProjectionMatrix(oc.combined);
         btnPlay.draw(batch);
         btnMenu.draw(batch);
-        sprNamQuit.draw(batch);
+        sprNamSign.draw(batch);
         sprSign.draw(batch);
         dud1.draw(batch);
         if(nTrig == 1){
@@ -109,7 +109,7 @@ public class ScrGameover implements Screen, InputProcessor {
     @Override
     public void dispose() {
         batch.dispose();
-        txNamQ.dispose();
+        txNamS.dispose();
     }
 
     @Override
