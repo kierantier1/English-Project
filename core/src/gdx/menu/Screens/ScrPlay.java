@@ -13,7 +13,7 @@ import gdx.menu.GamMenu;
 
 public class ScrPlay implements Screen, InputProcessor {
     Dude dud1;
-    Button btnSign, btnAni;
+    Button btnSign, btnAni, btnMenu;
     Wall[] arWall = new Wall[4];
     GamMenu gamMenu;
     OrthographicCamera oc;
@@ -45,6 +45,7 @@ public class ScrPlay implements Screen, InputProcessor {
         dud1 = new Dude(50, 100, 200, 250);
         btnAni = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "Animation.jpg");
         btnSign = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "SignB.png");
+        btnMenu = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, Gdx.graphics.getHeight()- 50, "Menu.jpg");
         Gdx.input.setInputProcessor(this);
     }
 
@@ -78,6 +79,7 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.setProjectionMatrix(oc.combined);
         btnAni.draw(batch);
         btnSign.draw(batch);
+        btnMenu.draw(batch);
         sprNamP.draw(batch);
         dud1.draw(batch);
         for (int i = 0; i < arWall.length; i++) {
@@ -134,7 +136,9 @@ public class ScrPlay implements Screen, InputProcessor {
             } else if (isHitB(screenX, screenY, btnSign)) {
                 gamMenu.updateState(2);
                 System.out.println("Hit Sign");
-            } else {
+            } else if (isHitB(screenX, screenY, btnMenu)){
+                gamMenu.updateState(0);
+                System.out.println("Hit Menu");
             }
         }
         return false;

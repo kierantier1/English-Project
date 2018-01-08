@@ -112,3 +112,9 @@ December 20, 2017
 -Text box means BitmapFont, which means upside-down text.  Can't flip it, but I can put the text right into the box sprite
 -Hit detection for Sign implemented, can only trigger sign once per hit
 -Sign is working properly.  Only appears when player hits the sign
+
+January 8, 2018
+-Coming back from break, making QOL changes, ie making all 3 buttons on each screen.  Easier to navigate
+-As a principle, try to put Menu in the middle bottom for consistency
+-All buttons are on all screens, am going to move text box on ScrSign, because it's in the way of the button.
+-Saved a textbox Template to my drive, edit that in PS whenever there's a new box.  It's tedious, but Bitmapfont doesn't work with OC

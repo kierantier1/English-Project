@@ -13,7 +13,7 @@ import gdx.menu.GamMenu;
 
 public class ScrMenu implements Screen, InputProcessor {
 
-    Button btnPlay, btnAni;
+    Button btnPlay, btnAni, btnSign;
     GamMenu gamMenu;
     Texture txButtonP, txButtonT, txNamM;
     OrthographicCamera oc;
@@ -32,6 +32,7 @@ public class ScrMenu implements Screen, InputProcessor {
         batch = new SpriteBatch();
         btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Play.jpg");
         btnAni = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "Animation.jpg");
+        btnSign = new Button(100, 50, Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() - 50, "SignB.png");
         txNamM = new Texture("M.jpg");
         sprNamM = new Sprite(txNamM);
         sprNamM.setFlip(false, true);
@@ -49,6 +50,7 @@ public class ScrMenu implements Screen, InputProcessor {
         sprNamM.draw(batch);
         btnPlay.draw(batch);
         btnAni.draw(batch);
+        btnSign.draw(batch);
         batch.end();
     }
 
@@ -98,6 +100,9 @@ public class ScrMenu implements Screen, InputProcessor {
             } else if (isHit(screenX, screenY, btnAni)) {
                 System.out.println("Hit Animation");
                 gamMenu.updateState(3);
+            } else if(isHit(screenX, screenY, btnSign)){
+                System.out.println("Hit Sign");
+                gamMenu.updateState(2);
             }
         }
         return false;

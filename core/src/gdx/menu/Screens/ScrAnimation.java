@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import gdx.menu.GamMenu;
 
 public class ScrAnimation implements Screen, InputProcessor {
-    Button btnMenu, btnSign;
+    Button btnMenu, btnSign, btnPlay;
     GamMenu gamMenu;
     OrthographicCamera oc;
     Texture txButtonM, txButtonQ, txNamT;
@@ -29,8 +29,9 @@ public class ScrAnimation implements Screen, InputProcessor {
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
-        btnMenu = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Menu.jpg");
+        btnMenu = new Button(100, 50, Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() - 50, "Menu.jpg");
         btnSign = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "SignB.png");
+        btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Play.jpg");
         txNamT = new Texture("A.jpg");
         sprNamT = new Sprite(txNamT);
         sprNamT.setFlip(false, true);
@@ -48,6 +49,7 @@ public class ScrAnimation implements Screen, InputProcessor {
         batch.setProjectionMatrix(oc.combined);
         btnMenu.draw(batch);
         btnSign.draw(batch);
+        btnPlay.draw(batch);
         sprNamT.draw(batch);
         batch.end();
     }
@@ -99,7 +101,9 @@ public class ScrAnimation implements Screen, InputProcessor {
             } else if (isHit(screenX, screenY, btnSign)) {
                 gamMenu.updateState(2);
                 System.out.println("Hit Sign");
-            } else {
+            } else if (isHit(screenX, screenY, btnPlay)){
+                gamMenu.updateState(1);
+                System.out.println("Hit Play");
             }
         }
         return false;

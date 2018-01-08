@@ -13,7 +13,7 @@ import gdx.menu.GamMenu;
 
 public class ScrSign implements Screen, InputProcessor {
     Dude dud1;
-    Button btnMenu, btnPlay;
+    Button btnMenu, btnPlay, btnAni;
     OrthographicCamera oc;
     Texture txNamS, txSign, txBox;
     GamMenu gamMenu;
@@ -31,7 +31,8 @@ public class ScrSign implements Screen, InputProcessor {
         oc.update();
         batch = new SpriteBatch();
         btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Play.jpg");
-        btnMenu = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "Menu.jpg");
+        btnMenu = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, Gdx.graphics.getHeight() - 50, "Menu.jpg");
+        btnAni = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight()-50, "Animation.jpg");
         txNamS = new Texture("S.png");
         sprNamSign = new Sprite(txNamS);
         sprNamSign.setFlip(false, true);
@@ -45,8 +46,8 @@ public class ScrSign implements Screen, InputProcessor {
         sprSign.setFlip(false, true);
         txBox = new Texture("Textbox.png");
         sprBox = new Sprite(txBox);
-        sprBox.setSize(150, 75);
-        sprBox.setPosition(Gdx.graphics.getWidth()/2 - sprBox.getWidth()/2, Gdx.graphics.getHeight() - sprBox.getHeight());
+        sprBox.setSize(300, 125);
+        sprBox.setPosition(Gdx.graphics.getWidth()/2 - sprBox.getWidth()/2, 0);
         sprBox.setFlip(false, true);
         Gdx.input.setInputProcessor(this);
     }
@@ -77,6 +78,7 @@ public class ScrSign implements Screen, InputProcessor {
         batch.setProjectionMatrix(oc.combined);
         btnPlay.draw(batch);
         btnMenu.draw(batch);
+        btnAni.draw(batch);
         sprNamSign.draw(batch);
         sprSign.draw(batch);
         dud1.draw(batch);
@@ -136,6 +138,9 @@ public class ScrSign implements Screen, InputProcessor {
             } else if (isHitB(screenX, screenY, btnMenu)) {
                 gamMenu.updateState(0);
                 System.out.println("Hit Menu");
+            } else if(isHitB(screenX, screenY, btnAni)){
+                gamMenu.updateState(3);
+                System.out.println("Hit Animation");
             }
         }
         return false;
