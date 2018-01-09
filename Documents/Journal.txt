@@ -118,3 +118,7 @@ January 8, 2018
 -As a principle, try to put Menu in the middle bottom for consistency
 -All buttons are on all screens, am going to move text box on ScrSign, because it's in the way of the button.
 -Saved a textbox Template to my drive, edit that in PS whenever there's a new box.  It's tedious, but Bitmapfont doesn't work with OC
+
+January 9, 2018
+-Made a quit button on the Menu screen
+-
