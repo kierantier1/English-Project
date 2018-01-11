@@ -121,4 +121,8 @@ January 8, 2018
 
 January 9, 2018
 -Made a quit button on the Menu screen
--
+
+January 11, 2018
+-Beginning to merge Animation into the ScrAnimation screen
+-Animation Screen merged successfully
+-Tomorrow:  new spritesheet?
