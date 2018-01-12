@@ -126,3 +126,7 @@ January 11, 2018
 -Beginning to merge Animation into the ScrAnimation screen
 -Animation Screen merged successfully
 -Tomorrow:  new spritesheet?
+
+January 12, 2018
+-I am unable to move Button, Wall and Dude classes to a Classes folder, why not??
+-Next Steps:  ??
