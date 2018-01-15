@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import gdx.menu.GamMenu;
 
 public class ScrAnimation implements Screen, InputProcessor {
-    Button btnMenu, btnSign, btnPlay;
+    Button btnMenu, btnSign, btnPlay, btnQuit;
     GamMenu gamMenu;
     OrthographicCamera oc;
     Texture txButtonM, txButtonQ, txNamT, txSheet;
@@ -39,6 +39,7 @@ public class ScrAnimation implements Screen, InputProcessor {
         btnMenu = new Button(100, 50, Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() - 50, "Menu.jpg");
         btnSign = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "SignB.png");
         btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Play.jpg");
+        btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         txNamT = new Texture("A.jpg");
         txSheet = new Texture("Vlad.png");
         sprNamT = new Sprite(txNamT);
@@ -117,6 +118,7 @@ public class ScrAnimation implements Screen, InputProcessor {
         btnSign.draw(batch);
         btnPlay.draw(batch);
         sprNamT.draw(batch);
+        btnQuit.draw(batch);
         batch.end();
     }
 
@@ -170,6 +172,9 @@ public class ScrAnimation implements Screen, InputProcessor {
             } else if (isHit(screenX, screenY, btnPlay)){
                 gamMenu.updateState(1);
                 System.out.println("Hit Play");
+            } else if (isHit(screenX, screenY, btnQuit)){
+                System.out.println("Quit");
+                System.exit(0);
             }
         }
         return false;

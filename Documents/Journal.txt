@@ -130,3 +130,7 @@ January 11, 2018
 January 12, 2018
 -I am unable to move Button, Wall and Dude classes to a Classes folder, why not??
 -Next Steps:  Creating a new application:  merging animation and Hit detection
+
+January 15, 2018
+-I don't really want to create a whole new application, so I'm just making a new Screen, AniHit
+-Going to add Quit and Anihit buttons to each screen
