@@ -134,3 +134,6 @@ January 12, 2018
 January 15, 2018
 -I don't really want to create a whole new application, so I'm just making a new Screen, AniHit
 -Going to add Quit and Anihit buttons to each screen
+
+January 16, 2018
+-More button adding

@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import gdx.menu.GamMenu;
 
 public class ScrAnimation implements Screen, InputProcessor {
-    Button btnMenu, btnSign, btnPlay, btnQuit;
+    Button btnMenu, btnSign, btnPlay, btnQuit, btnAH;
     GamMenu gamMenu;
     OrthographicCamera oc;
     Texture txButtonM, txButtonQ, txNamT, txSheet;
@@ -40,6 +40,7 @@ public class ScrAnimation implements Screen, InputProcessor {
         btnSign = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "SignB.png");
         btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Play.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
+        btnAH = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 0, "AniHit.png");
         txNamT = new Texture("A.jpg");
         txSheet = new Texture("Vlad.png");
         sprNamT = new Sprite(txNamT);
@@ -175,6 +176,9 @@ public class ScrAnimation implements Screen, InputProcessor {
             } else if (isHit(screenX, screenY, btnQuit)){
                 System.out.println("Quit");
                 System.exit(0);
+            } else if (isHit(screenX, screenY, btnAH)){
+                System.out.println("Hit AniHit");
+                gamMenu.updateState(4);
             }
         }
         return false;
