@@ -13,7 +13,7 @@ import gdx.menu.GamMenu;
 
 public class ScrPlay implements Screen, InputProcessor {
     Dude dud1;
-    Button btnSign, btnAni, btnMenu;
+    Button btnSign, btnAni, btnMenu, btnQuit, btnAH;
     Wall[] arWall = new Wall[4];
     GamMenu gamMenu;
     OrthographicCamera oc;
@@ -32,9 +32,9 @@ public class ScrPlay implements Screen, InputProcessor {
         oc.update();
         txWall = new Texture("Wall.jpg");
         //Setting up Walls
-        arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 0);    //Top Wall
-        arWall[1] = new Wall(50, Gdx.graphics.getHeight() - 50, Gdx.graphics.getWidth() - 50, 0);   //Right Wall
-        arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 50, 0, 0);     //Left Wall
+        arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 50);    //Top Wall
+        arWall[1] = new Wall(50, Gdx.graphics.getHeight() - 100, Gdx.graphics.getWidth() - 50, 50);   //Right Wall
+        arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 100, 0, 50);     //Left Wall
         arWall[3] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);       //Bottom Wall
         batch = new SpriteBatch();
         txNamP = new Texture("P.jpg");
@@ -46,6 +46,8 @@ public class ScrPlay implements Screen, InputProcessor {
         btnAni = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "Animation.jpg");
         btnSign = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "SignB.png");
         btnMenu = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, Gdx.graphics.getHeight()- 50, "Menu.jpg");
+        btnAH = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 0, "AniHit.png");
+        btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         Gdx.input.setInputProcessor(this);
     }
 
@@ -81,6 +83,8 @@ public class ScrPlay implements Screen, InputProcessor {
         btnSign.draw(batch);
         btnMenu.draw(batch);
         sprNamP.draw(batch);
+        btnQuit.draw(batch);
+        btnAH.draw(batch);
         dud1.draw(batch);
         for (int i = 0; i < arWall.length; i++) {
             arWall[i].draw(batch);
@@ -139,6 +143,9 @@ public class ScrPlay implements Screen, InputProcessor {
             } else if (isHitB(screenX, screenY, btnMenu)){
                 gamMenu.updateState(0);
                 System.out.println("Hit Menu");
+            } else if (isHitB(screenX, screenY, btnQuit)){
+                System.out.println("Quit");
+                System.exit(0);
             }
         }
         return false;

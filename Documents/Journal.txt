@@ -137,3 +137,4 @@ January 15, 2018
 
 January 16, 2018
 -More button adding
+-Moved the walls on the play screen to accomodate Quit and AniHit buttons
