@@ -145,3 +145,5 @@ January 17, 2018
 -Animation is still being drawn in the top right corner, unsure why
 -Using a ghost sprite underneath animation for hit detection.
 -Using sprTest.setPosition during declaration fixed the issue
+-The little map sprite I created isn't fixing its position properly when I scale it for the walls
+

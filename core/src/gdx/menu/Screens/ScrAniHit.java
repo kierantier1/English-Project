@@ -49,9 +49,10 @@ public class ScrAniHit implements Screen, InputProcessor{
         sprNamAH.setSize(60, 80);
         sprNamAH.setPosition(Gdx.graphics.getWidth()/2 - 30, Gdx.graphics.getHeight()/2 - 40);
         txMap = new Texture("Map so far.png");
-        sprMap = new Sprite(txMap, 640, 280);
-        sprMap.setPosition(50, 100);
-        sprMap.setSize(640, 280);
+        sprMap = new Sprite(txMap);
+        sprMap.setScale(4);
+        sprMap.setPosition(Gdx.graphics.getWidth() / 2 - sprMap.getWidth() / 2, Gdx.graphics.getHeight() / 2 - sprMap.getHeight() / 2);
+        
         sprMap.setFlip(false, true);
         arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 50);   //Top Wall
         arWall[1] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);    //Bottom Wall
