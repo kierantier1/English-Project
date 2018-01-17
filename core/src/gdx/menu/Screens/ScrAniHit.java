@@ -19,8 +19,8 @@ public class ScrAniHit implements Screen, InputProcessor{
     OrthographicCamera oc;
     Button btnMenu, btnSign, btnPlay, btnAni, btnQuit;
     TextureRegion trTemp;
-    Texture txSheet, txNamAH;
-    Sprite sprNamAH, sprDude, sprAni;   //sprAni is a ghost, a sprite used for hit detection
+    Texture txSheet, txNamAH, txMap;
+    Sprite sprNamAH, sprDude, sprAni, sprMap;   //sprAni is a ghost, a sprite used for hit detection
     int nFrame, nPos, nX = 100, nY = 100;
     Animation araniDude[];
     int fW, fH, fSx, fSy;
@@ -48,7 +48,11 @@ public class ScrAniHit implements Screen, InputProcessor{
         sprNamAH.setFlip(false, true);
         sprNamAH.setSize(60, 80);
         sprNamAH.setPosition(Gdx.graphics.getWidth()/2 - 30, Gdx.graphics.getHeight()/2 - 40);
-        
+        txMap = new Texture("Map so far.png");
+        sprMap = new Sprite(txMap, 640, 280);
+        sprMap.setPosition(50, 100);
+        sprMap.setSize(640, 280);
+        sprMap.setFlip(false, true);
         arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 50);   //Top Wall
         arWall[1] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);    //Bottom Wall
         arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 200, 0, 100);   //Left Wall
@@ -124,15 +128,13 @@ public class ScrAniHit implements Screen, InputProcessor{
         }
         for (int i = 0; i < arWall.length; i++) {
            if(isHitS(sprAni, arWall[i])){
-                System.out.println("Hit the wall");
                 sprAni.setPosition(fSx, fSy);
-                System.out.println(fSx + " " + fSy);
             }
         }
         
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
-        
+        sprMap.draw(batch);
         btnMenu.draw(batch);
         btnSign.draw(batch);
         btnPlay.draw(batch);
