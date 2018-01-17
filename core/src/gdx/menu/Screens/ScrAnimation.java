@@ -64,7 +64,7 @@ public class ScrAnimation implements Screen, InputProcessor {
                 sprDude.setFlip(false, true);
                 arSprDude[j] = new Sprite(sprDude);
             }
-            araniDude[i] = new Animation(0.5f, arSprDude);
+            araniDude[i] = new Animation(0.8f, arSprDude);
 
         }
         

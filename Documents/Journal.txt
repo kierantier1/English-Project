@@ -140,3 +140,8 @@ January 16, 2018
 -Moved the walls on the play screen to accomodate Quit and AniHit buttons
 -Walls and isHitS function implemented in AniHit screen
 -Hit detection works in AniHit, but I cannot change the starting position of the Sprite.  What the heck
+
+January 17, 2018
+-Animation is still being drawn in the top right corner, unsure why
+-Using a ghost sprite underneath animation for hit detection.
+-Using sprTest.setPosition during declaration fixed the issue

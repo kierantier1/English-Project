@@ -20,7 +20,7 @@ public class ScrAniHit implements Screen, InputProcessor{
     Button btnMenu, btnSign, btnPlay, btnAni, btnQuit;
     TextureRegion trTemp;
     Texture txSheet, txNamAH;
-    Sprite sprNamAH, sprDude, sprTest;
+    Sprite sprNamAH, sprDude, sprAni;   //sprAni is a ghost, a sprite used for hit detection
     int nFrame, nPos, nX = 100, nY = 100;
     Animation araniDude[];
     int fW, fH, fSx, fSy;
@@ -72,7 +72,8 @@ public class ScrAniHit implements Screen, InputProcessor{
             araniDude[i] = new Animation(0.8f, arSprDude);
 
         }
-        sprTest = new Sprite(txNamAH, 300, 300, fW, fH);
+        sprAni = new Sprite(txNamAH, 0, 0, fW, fH);
+        sprAni.setPosition(200, 200);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -80,8 +81,8 @@ public class ScrAniHit implements Screen, InputProcessor{
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 0, 1, 1); //Purple background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        float fSx = sprTest.getX();
-        float fSy = sprTest.getY();
+        float fSx = sprAni.getX();
+        float fSy = sprAni.getY();
         //Animation Stuff
         
         if (nFrame > 7) {
@@ -90,22 +91,22 @@ public class ScrAniHit implements Screen, InputProcessor{
         trTemp = araniDude[nPos].getKeyFrame(nFrame, false);
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             //nX = nX-=1;
-            sprTest.setX(sprTest.getX() - 1);
+            sprAni.setX(sprAni.getX() - 1);
             nPos = 7;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             //nX = nX+=1;
-            sprTest.setX(sprTest.getX() + 1);
+            sprAni.setX(sprAni.getX() + 1);
             nPos = 0;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.UP)){
             //nY = nY-=1;
-            sprTest.setY(sprTest.getY() - 1);
+            sprAni.setY(sprAni.getY() - 1);
             nPos = 1;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             //nY = nY+=1;
-            sprTest.setY(sprTest.getY() + 1);
+            sprAni.setY(sprAni.getY() + 1);
             nPos = 4;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.UP)){
@@ -122,23 +123,24 @@ public class ScrAniHit implements Screen, InputProcessor{
             nFrame--;
         }
         for (int i = 0; i < arWall.length; i++) {
-            if(isHitS(sprTest, arWall[i])){
+           if(isHitS(sprAni, arWall[i])){
                 System.out.println("Hit the wall");
-                sprTest.setPosition(fSx, fSy);
+                sprAni.setPosition(fSx, fSy);
+                System.out.println(fSx + " " + fSy);
             }
-            
         }
         
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
-        batch.draw(trTemp, sprTest.getX(), sprTest.getY());
+        
         btnMenu.draw(batch);
         btnSign.draw(batch);
         btnPlay.draw(batch);
         btnQuit.draw(batch);
         sprNamAH.draw(batch);
         btnAni.draw(batch);
-        //sprTest.draw(batch);
+        //sprAni.draw(batch);
+        batch.draw(trTemp, fSx, fSy);
         for(int i = 0; i < arWall.length; i++){
         arWall[i].draw(batch);
         }
