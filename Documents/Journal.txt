@@ -138,3 +138,5 @@ January 15, 2018
 January 16, 2018
 -More button adding
 -Moved the walls on the play screen to accomodate Quit and AniHit buttons
+-Walls and isHitS function implemented in AniHit screen
+-Hit detection works in AniHit, but I cannot change the starting position of the Sprite.  What the heck

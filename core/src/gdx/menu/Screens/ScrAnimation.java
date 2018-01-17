@@ -120,6 +120,7 @@ public class ScrAnimation implements Screen, InputProcessor {
         btnPlay.draw(batch);
         sprNamT.draw(batch);
         btnQuit.draw(batch);
+        btnAH.draw(batch);
         batch.end();
     }
 

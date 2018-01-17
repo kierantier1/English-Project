@@ -20,11 +20,11 @@ public class ScrAniHit implements Screen, InputProcessor{
     Button btnMenu, btnSign, btnPlay, btnAni, btnQuit;
     TextureRegion trTemp;
     Texture txSheet, txNamAH;
-    Sprite sprNamAH, sprDude;
+    Sprite sprNamAH, sprDude, sprTest;
     int nFrame, nPos, nX = 100, nY = 100;
     Animation araniDude[];
     int fW, fH, fSx, fSy;
-    
+    Wall[] arWall = new Wall[4];
     
     
     public ScrAniHit(GamMenu _gamMenu) {
@@ -41,6 +41,7 @@ public class ScrAniHit implements Screen, InputProcessor{
         btnSign = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "SignB.png");
         btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Play.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
+        btnAni = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 0, "Animation.jpg");
         txNamAH = new Texture("A.jpg");
         txSheet = new Texture("Vlad.png");
         sprNamAH = new Sprite(txNamAH);
@@ -48,6 +49,10 @@ public class ScrAniHit implements Screen, InputProcessor{
         sprNamAH.setSize(60, 80);
         sprNamAH.setPosition(Gdx.graphics.getWidth()/2 - 30, Gdx.graphics.getHeight()/2 - 40);
         
+        arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 50);   //Top Wall
+        arWall[1] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);    //Bottom Wall
+        arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 200, 0, 100);   //Left Wall
+        arWall[3] = new Wall(50, Gdx.graphics.getHeight() - 200, Gdx.graphics.getWidth() - 50, 100);    //Right Wall
         
         //Animation Stuff
         nFrame = 0;
@@ -64,18 +69,19 @@ public class ScrAniHit implements Screen, InputProcessor{
                 sprDude.setFlip(false, true);
                 arSprDude[j] = new Sprite(sprDude);
             }
-            araniDude[i] = new Animation(0.5f, arSprDude);
+            araniDude[i] = new Animation(0.8f, arSprDude);
 
         }
-        
+        sprTest = new Sprite(txNamAH, 300, 300, fW, fH);
         Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 1, 1, 1); //Cyan background.
+        Gdx.gl.glClearColor(1, 0, 1, 1); //Purple background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+        float fSx = sprTest.getX();
+        float fSy = sprTest.getY();
         //Animation Stuff
         
         if (nFrame > 7) {
@@ -83,19 +89,23 @@ public class ScrAniHit implements Screen, InputProcessor{
         }
         trTemp = araniDude[nPos].getKeyFrame(nFrame, false);
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            nX = nX-=1;
+            //nX = nX-=1;
+            sprTest.setX(sprTest.getX() - 1);
             nPos = 7;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            nX = nX+=1;
+            //nX = nX+=1;
+            sprTest.setX(sprTest.getX() + 1);
             nPos = 0;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            nY = nY-=1;
+            //nY = nY-=1;
+            sprTest.setY(sprTest.getY() - 1);
             nPos = 1;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            nY = nY+=1;
+            //nY = nY+=1;
+            sprTest.setY(sprTest.getY() + 1);
             nPos = 4;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.UP)){
@@ -111,15 +121,27 @@ public class ScrAniHit implements Screen, InputProcessor{
             nPos = 5;
             nFrame--;
         }
+        for (int i = 0; i < arWall.length; i++) {
+            if(isHitS(sprTest, arWall[i])){
+                System.out.println("Hit the wall");
+                sprTest.setPosition(fSx, fSy);
+            }
+            
+        }
         
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
-        batch.draw(trTemp, nX, nY);
+        batch.draw(trTemp, sprTest.getX(), sprTest.getY());
         btnMenu.draw(batch);
         btnSign.draw(batch);
         btnPlay.draw(batch);
         btnQuit.draw(batch);
         sprNamAH.draw(batch);
+        btnAni.draw(batch);
+        //sprTest.draw(batch);
+        for(int i = 0; i < arWall.length; i++){
+        arWall[i].draw(batch);
+        }
         batch.end();
     }
 
@@ -176,6 +198,9 @@ public class ScrAniHit implements Screen, InputProcessor{
             } else if (isHitB(screenX, screenY, btnQuit)){
                 System.out.println("Quit");
                 System.exit(0);
+            } else if (isHitB(screenX, screenY, btnAni)){
+                System.out.println("Hit Animation");
+                gamMenu.updateState(3);
             }
         }
         return false;
@@ -206,5 +231,8 @@ public class ScrAniHit implements Screen, InputProcessor{
         } else {
             return false;
         }
+    }
+    public boolean isHitS(Sprite spr1, Sprite spr2) {
+        return spr1.getBoundingRectangle().overlaps(spr2.getBoundingRectangle());
     }
 }
