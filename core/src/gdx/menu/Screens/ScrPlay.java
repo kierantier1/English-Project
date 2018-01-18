@@ -146,6 +146,9 @@ public class ScrPlay implements Screen, InputProcessor {
             } else if (isHitB(screenX, screenY, btnQuit)){
                 System.out.println("Quit");
                 System.exit(0);
+            } else if (isHitB(screenX, screenY, btnAH)){
+                System.out.println("Hit AniHit");
+                gamMenu.updateState(4);
             }
         }
         return false;

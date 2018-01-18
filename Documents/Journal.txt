@@ -147,3 +147,6 @@ January 17, 2018
 -Using sprTest.setPosition during declaration fixed the issue
 -The little map sprite I created isn't fixing its position properly when I scale it for the walls
 
+January 18, 2018
+-Making the sign on ScrSign have more text, editing pngs
+-Yeah boye it finally works.  Run into the sign, shows you sign text 1.  Press enter while hitting the sign, shows you sign text 2.

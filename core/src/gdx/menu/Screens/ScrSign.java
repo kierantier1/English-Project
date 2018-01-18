@@ -15,10 +15,10 @@ public class ScrSign implements Screen, InputProcessor {
     Dude dud1;
     Button btnMenu, btnPlay, btnAni, btnQuit, btnAH;
     OrthographicCamera oc;
-    Texture txNamS, txSign, txBox;
+    Texture txNamS, txSign, txBox1, txBox2;
     GamMenu gamMenu;
     SpriteBatch batch;
-    Sprite sprNamSign, sprSign, sprBox;
+    Sprite sprNamSign, sprSign, sprBox1, sprBox2;
     int nTrig = 0; //Trigger variable for sign
     public ScrSign(GamMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
@@ -46,17 +46,22 @@ public class ScrSign implements Screen, InputProcessor {
         sprSign.setPosition(150, 150);
         sprSign.setSize(50,50);
         sprSign.setFlip(false, true);
-        txBox = new Texture("Textbox.png");
-        sprBox = new Sprite(txBox);
-        sprBox.setSize(300, 125);
-        sprBox.setPosition(Gdx.graphics.getWidth()/2 - sprBox.getWidth()/2, 0);
-        sprBox.setFlip(false, true);
+        txBox1 = new Texture("Textbox.png");
+        sprBox1 = new Sprite(txBox1);
+        sprBox1.setSize(300, 125);
+        sprBox1.setPosition(Gdx.graphics.getWidth()/2 - sprBox1.getWidth()/2, 0);
+        sprBox1.setFlip(false, true);
+        txBox2 = new Texture("Textbox2.png");
+        sprBox2 = new Sprite(txBox2);
+        sprBox2.setPosition(Gdx.graphics.getWidth()/2 - sprBox1.getWidth()/2, 0);
+        sprBox2.setSize(300, 125);
+        sprBox2.setFlip(false, true);
         Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void render(float Delta) {
-        Gdx.gl.glClearColor(0, 1, 1, 1); //Cyan background.
+        Gdx.gl.glClearColor(0, 0, 1, 1); //Blue background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
@@ -69,13 +74,17 @@ public class ScrSign implements Screen, InputProcessor {
             dud1.setY(dud1.getY()+5);
         }
 
-        if(isHitS(dud1, sprSign) && nTrig != 1){
+        if(isHitS(dud1, sprSign) && nTrig == 0){
             System.out.println("Read Sign");
             nTrig = 1;
-        } else if(! isHitS(dud1, sprSign)){
+        } else if(isHitS(dud1, sprSign) && nTrig == 3){
+            nTrig = 3;
+        }else if(! isHitS(dud1, sprSign)){
             nTrig = 0;
         }
-        
+        if(nTrig == 1 && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+            nTrig = 3;
+        }
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
         btnPlay.draw(batch);
@@ -87,7 +96,9 @@ public class ScrSign implements Screen, InputProcessor {
         dud1.draw(batch);
         btnAH.draw(batch);
         if(nTrig == 1){
-            sprBox.draw(batch);
+            sprBox1.draw(batch);
+        } else if(nTrig == 3){
+            sprBox2.draw(batch);
         }
         batch.end();
     }
