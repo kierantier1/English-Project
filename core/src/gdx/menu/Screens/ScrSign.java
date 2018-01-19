@@ -13,7 +13,7 @@ import gdx.menu.GamMenu;
 
 public class ScrSign implements Screen, InputProcessor {
     Dude dud1;
-    Button btnMenu, btnPlay, btnAni, btnQuit, btnAH;
+    Button btnMenu, btnPlay, btnAni, btnQuit, btnAH, btnGame;
     OrthographicCamera oc;
     Texture txNamS, txSign, txBox1, txBox2;
     GamMenu gamMenu;
@@ -35,6 +35,7 @@ public class ScrSign implements Screen, InputProcessor {
         btnAni = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight()-50, "Animation.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         btnAH = new Button(100, 50, Gdx.graphics.getWidth() / 2 - 50, 0, "AniHit.png");
+        btnGame = new Button(100, 50, 0, 0, "Game.png");
         txNamS = new Texture("S.png");
         sprNamSign = new Sprite(txNamS);
         sprNamSign.setFlip(false, true);
@@ -95,6 +96,7 @@ public class ScrSign implements Screen, InputProcessor {
         btnQuit.draw(batch);
         dud1.draw(batch);
         btnAH.draw(batch);
+        btnGame.draw(batch);
         if(nTrig == 1){
             sprBox1.draw(batch);
         } else if(nTrig == 3){
@@ -162,6 +164,9 @@ public class ScrSign implements Screen, InputProcessor {
             } else if(isHitB(screenX, screenY, btnAH)){
                 System.out.println("Hit AniHit");
                 gamMenu.updateState(4);
+            } else if(isHitB(screenX, screenY, btnGame)){
+                System.out.println("Hit Game");
+                gamMenu.updateState(5);
             }
         }
         return false;

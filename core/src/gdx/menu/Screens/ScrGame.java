@@ -13,21 +13,21 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import gdx.menu.GamMenu;
 
-public class ScrAniHit implements Screen, InputProcessor{
+public class ScrGame implements Screen, InputProcessor{
     SpriteBatch batch;
     GamMenu gamMenu;
     OrthographicCamera oc;
-    Button btnMenu, btnSign, btnPlay, btnAni, btnQuit, btnGame;
+    Button btnMenu, btnSign, btnPlay, btnAni, btnQuit, btnAH;
     TextureRegion trTemp;
-    Texture txSheet, txNamAH, txMap;
-    Sprite sprNamAH, sprDude, sprAni, sprMap;   //sprAni is a ghost, a sprite used for hit detection
+    Texture txSheet, txNamGame, txMap;
+    Sprite sprNamGame, sprDude, sprAni, sprMap;   //sprAni is a ghost, a sprite used for hit detection
     int nFrame, nPos, nX = 100, nY = 100;
     Animation araniDude[];
     int fW, fH, fSx, fSy;
     Wall[] arWall = new Wall[4];
     
     
-    public ScrAniHit(GamMenu _gamMenu) {
+    public ScrGame(GamMenu _gamMenu) {
         gamMenu = _gamMenu;
     }
 
@@ -42,18 +42,19 @@ public class ScrAniHit implements Screen, InputProcessor{
         btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Play.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         btnAni = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 0, "Animation.jpg");
-        btnGame = new Button(100, 50, 0, 0, "Game.png");
-        txNamAH = new Texture("A.jpg");
+        btnAH = new Button(100, 50, 0, 0, "AniHit.png");
+        txNamGame = new Texture("G.png");
         txSheet = new Texture("Vlad.png");
-        sprNamAH = new Sprite(txNamAH);
-        sprNamAH.setFlip(false, true);
-        sprNamAH.setSize(60, 80);
-        sprNamAH.setPosition(Gdx.graphics.getWidth()/2 - 30, Gdx.graphics.getHeight()/2 - 40);
+        sprNamGame = new Sprite(txNamGame);
+        sprNamGame.setFlip(false, true);
+        sprNamGame.setSize(60, 80);
+        sprNamGame.setPosition(Gdx.graphics.getWidth()/2 - 30, Gdx.graphics.getHeight()/2 - 40);
         txMap = new Texture("Map so far.png");
-        //sprMap = new Sprite(txMap);
-        //sprMap.setScale(4);
-        //sprMap.setPosition(Gdx.graphics.getWidth() / 2 - sprMap.getWidth() / 2, Gdx.graphics.getHeight() / 2 - sprMap.getHeight() / 2);
-        //sprMap.setFlip(false, true);
+        sprMap = new Sprite(txMap);
+        sprMap.setScale(4);
+        sprMap.setPosition(Gdx.graphics.getWidth() / 2 - sprMap.getWidth() / 2, Gdx.graphics.getHeight() / 2 - sprMap.getHeight() / 2);
+        
+        sprMap.setFlip(false, true);
         arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 50);   //Top Wall
         arWall[1] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);    //Bottom Wall
         arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 200, 0, 100);   //Left Wall
@@ -77,7 +78,7 @@ public class ScrAniHit implements Screen, InputProcessor{
             araniDude[i] = new Animation(0.8f, arSprDude);
 
         }
-        sprAni = new Sprite(txNamAH, 0, 0, fW, fH);
+        sprAni = new Sprite(txNamGame, 0, 0, fW, fH);
         sprAni.setPosition(200, 200);
         Gdx.input.setInputProcessor(this);
     }
@@ -135,13 +136,15 @@ public class ScrAniHit implements Screen, InputProcessor{
         
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
+        sprMap.draw(batch);
         btnMenu.draw(batch);
         btnSign.draw(batch);
         btnPlay.draw(batch);
         btnQuit.draw(batch);
-        sprNamAH.draw(batch);
+        sprNamGame.draw(batch);
         btnAni.draw(batch);
-        btnGame.draw(batch);
+        btnAH.draw(batch);
+        //sprAni.draw(batch);
         batch.draw(trTemp, fSx, fSy);
         for(int i = 0; i < arWall.length; i++){
         arWall[i].draw(batch);
@@ -168,8 +171,7 @@ public class ScrAniHit implements Screen, InputProcessor{
     @Override
     public void dispose() {
         batch.dispose();
-        txNamAH.dispose();
-        txSheet.dispose();
+        txNamGame.dispose();
     }
 
     @Override
@@ -206,9 +208,9 @@ public class ScrAniHit implements Screen, InputProcessor{
             } else if (isHitB(screenX, screenY, btnAni)){
                 System.out.println("Hit Animation");
                 gamMenu.updateState(3);
-            } else if (isHitB(screenX, screenY, btnGame)){
-                System.out.println("Hit Game");
-                gamMenu.updateState(5);
+            } else if (isHitB(screenX, screenY, btnAH)){
+                System.out.println("Hit AniHit");
+                gamMenu.updateState(4);
             }
         }
         return false;
