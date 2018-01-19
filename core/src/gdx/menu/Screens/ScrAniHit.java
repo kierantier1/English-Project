@@ -132,6 +132,9 @@ public class ScrAniHit implements Screen, InputProcessor{
                 sprAni.setPosition(fSx, fSy);
             }
         }
+        if(isHitS(sprAni, sprNamAH)){
+            sprAni.setPosition(fSx, fSy);
+        }
         
         batch.begin();
         batch.setProjectionMatrix(oc.combined);

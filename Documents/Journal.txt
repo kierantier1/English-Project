@@ -155,7 +155,7 @@ January 19, 2018
 -Making a more polished "Game" screen, incorporating all previous screens.
 -"Game" screen in place, implementing buttons
 -When you make the page bigger, the buttons don't work.  Why??
--Some next steps:
+-Some next steps for ScrGame
     -Adding a sign to ScrGame
     -Making a house sprite, making it like the sign, you hit the door, it asks you if you want to proceed.
     -If so, it takes you to a new screen, inside the house
