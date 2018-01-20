@@ -19,9 +19,10 @@ public class ScrGame implements Screen, InputProcessor{
     OrthographicCamera oc;
     Button btnMenu, btnSign, btnPlay, btnAni, btnQuit, btnAH;
     TextureRegion trTemp;
-    Texture txSheet, txNamGame, txMap;
-    Sprite sprNamGame, sprDude, sprAni, sprMap;   //sprAni is a ghost, a sprite used for hit detection
-    int nFrame, nPos, nX = 100, nY = 100;
+    Texture txSheet, txNamGame, txMap, txSign, txTextbox1, txTextbox2;
+    Sprite sprNamGame, sprDude, sprAni, sprMap, sprSign;   //sprAni is a ghost, a sprite used for hit detection, maybe a bit redundant
+    Sprite arsprTextbox[] = new Sprite[2];
+    int nFrame, nPos, nX = 100, nY = 100, nTrig = 0;
     Animation araniDude[];
     int fW, fH, fSx, fSy;
     Wall[] arWall = new Wall[4];
@@ -49,17 +50,29 @@ public class ScrGame implements Screen, InputProcessor{
         sprNamGame.setFlip(false, true);
         sprNamGame.setSize(60, 80);
         sprNamGame.setPosition(Gdx.graphics.getWidth()/2 - 30, Gdx.graphics.getHeight()/2 - 40);
+        txTextbox1 = new Texture("Textbox.png");
+        txTextbox2 = new Texture("Textbox2.png");
+        arsprTextbox[0] = new Sprite(txTextbox1);
+        arsprTextbox[1] = new Sprite(txTextbox2);
+        for (int i = 0; i < arsprTextbox.length; i++) {
+            arsprTextbox[i].setFlip(false, true);
+            arsprTextbox[i].setSize(300, 125);
+            arsprTextbox[i].setPosition(Gdx.graphics.getWidth()/2 - arsprTextbox[i].getWidth()/2, 0);
+        }
         txMap = new Texture("Map so far.png");
         sprMap = new Sprite(txMap);
         sprMap.setScale(4);
         sprMap.setPosition(Gdx.graphics.getWidth() / 2 - sprMap.getWidth() / 2, Gdx.graphics.getHeight() / 2 - sprMap.getHeight() / 2);
-        
         sprMap.setFlip(false, true);
         arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 50);   //Top Wall
         arWall[1] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);    //Bottom Wall
         arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 200, 0, 100);   //Left Wall
         arWall[3] = new Wall(50, Gdx.graphics.getHeight() - 200, Gdx.graphics.getWidth() - 50, 100);    //Right Wall
-        
+        txSign = new Texture("Sign.png");
+        sprSign = new Sprite(txSign);
+        sprSign.setPosition(400, 270);
+        sprSign.setSize(25, 25);
+        sprSign.setFlip(false, true);
         //Animation Stuff
         nFrame = 0;
         nPos = 0;
@@ -90,7 +103,17 @@ public class ScrGame implements Screen, InputProcessor{
         float fSx = sprAni.getX();
         float fSy = sprAni.getY();
         //Animation Stuff
-        
+        if(isHitS(sprAni, sprSign) && nTrig == 0){
+            System.out.println("Read Sign");
+            nTrig = 1;
+        } else if(isHitS(sprAni, sprSign) && nTrig == 3){
+            nTrig = 3;
+        }else if(! isHitS(sprAni, sprSign)){
+            nTrig = 0;
+        }
+        if(nTrig == 1 && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+            nTrig = 3;
+        }
         if (nFrame > 7) {
             nFrame = 0;
         }
@@ -144,10 +167,15 @@ public class ScrGame implements Screen, InputProcessor{
         sprNamGame.draw(batch);
         btnAni.draw(batch);
         btnAH.draw(batch);
-        //sprAni.draw(batch);
+        sprSign.draw(batch);
         batch.draw(trTemp, fSx, fSy);
         for(int i = 0; i < arWall.length; i++){
         arWall[i].draw(batch);
+        }
+        if(nTrig == 1){
+            arsprTextbox[0].draw(batch);
+        } else if(nTrig == 3){
+            arsprTextbox[1].draw(batch);
         }
         batch.end();
     }
