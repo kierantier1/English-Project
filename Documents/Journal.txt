@@ -159,3 +159,8 @@ January 19, 2018
     -Adding a sign to ScrGame
     -Making a house sprite, making it like the sign, you hit the door, it asks you if you want to proceed.
     -If so, it takes you to a new screen, inside the house
+
+January 22, 2018
+-Starting to implement door/house thing
+-House sprite is in place, relocates to scrMenu right now, until I can put a House screen in place
+-Trying to make a new Screen, ScrHouse, but it doesn't want to switch to the screen.

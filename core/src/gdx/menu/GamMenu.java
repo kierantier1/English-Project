@@ -6,6 +6,7 @@ import gdx.menu.Screens.ScrSign;
 import gdx.menu.Screens.ScrAnimation;
 import gdx.menu.Screens.ScrAniHit;
 import gdx.menu.Screens.ScrGame;
+import gdx.menu.Screens.ScrHouse;
 
 
 
@@ -16,6 +17,7 @@ public class GamMenu extends Game {
     ScrAnimation scrAnimation;
     ScrAniHit scrAniHit;
     ScrGame scrGame;
+    ScrHouse scrHouse;
     int nScreen; // 0 for menu, 1 for play, 2 for Sign, 3 for Animation, 4 for AniHit, 5 for Game
     
     public void updateState(int _nScreen) {
@@ -32,6 +34,8 @@ public class GamMenu extends Game {
             setScreen(scrAniHit);
         } else if (nScreen == 5){
             setScreen(scrGame);
+        } else if (nScreen == 6){
+            setScreen(scrHouse);
         }
     }
 
