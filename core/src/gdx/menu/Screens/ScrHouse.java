@@ -17,14 +17,14 @@ public class ScrHouse implements Screen, InputProcessor{
     SpriteBatch batch;
     GamMenu gamMenu;
     OrthographicCamera oc;
-    Button btnMenu, btnQuit;
+    Button btnQuit;
     TextureRegion trTemp;
-    Texture txSheet, txAni;
-    Sprite sprDude, sprAni;   //sprAni is a ghost, a sprite used for hit detection
-    int nFrame, nPos, nX = 100, nY = 100;
+    Texture txNamH, txSheet, txFloor, txTextBox;
+    Sprite sprDude, sprDoor, sprAni, sprFloor, sprBox;   //sprAni is a ghost, a sprite used for hit detection
+    int nFrame, nPos, nX = 100, nY = 100, nTrig;
     Animation araniDude[];
     int fW, fH, fSx, fSy;
-    Wall[] arWall = new Wall[4];
+    Wall[] arWall = new Wall[5];
     
     
     public ScrHouse(GamMenu _gamMenu) {
@@ -37,17 +37,30 @@ public class ScrHouse implements Screen, InputProcessor{
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
-        btnMenu = new Button(100, 50, Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() - 50, "Menu.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         txSheet = new Texture("Vlad.png");
-        arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 50);   //Top Wall
-        arWall[1] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);    //Bottom Wall
-        arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 200, 0, 100);   //Left Wall
-        arWall[3] = new Wall(50, Gdx.graphics.getHeight() - 200, Gdx.graphics.getWidth() - 50, 100);    //Right Wall
-        txAni = new Texture("M.jpg");
+        txTextBox = new Texture("Textbox4.png");
+        txNamH = new Texture("A.jpg");
+        txFloor = new Texture("InHouse.png");
+        sprFloor = new Sprite(txFloor);
+        sprFloor.setScale(2.3f);
+        sprFloor.setPosition(Gdx.graphics.getWidth() / 2 - sprFloor.getWidth() / 2, Gdx.graphics.getHeight() / 2 - sprFloor.getHeight() / 2 + 2);
+        sprFloor.setFlip(false, true);
+        sprBox = new Sprite(txTextBox);
+        sprBox.setFlip(false, true);
+        sprBox.setSize(300, 125);
+        sprBox.setPosition(Gdx.graphics.getWidth()/2 - sprBox.getWidth()/2, 0);
+        sprDoor = new Sprite(txTextBox);
+        nTrig = 0;
+        arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 0);   //Top Wall
+        arWall[1] = new Wall(Gdx.graphics.getWidth() / 2 - 35, 50, 0, Gdx.graphics.getHeight() - 50);    //Bottom Left Wall
+        arWall[4] = new Wall(Gdx.graphics.getWidth() / 2 - 35, 50, Gdx.graphics.getWidth() - Gdx.graphics.getWidth() / 2 + 35, Gdx.graphics.getHeight() - 50);  //Bottom Right Wall
+        arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 100, 0, 50);   //Left Wall
+        arWall[3] = new Wall(50, Gdx.graphics.getHeight() - 100, Gdx.graphics.getWidth() - 50, 50);    //Right Wall
+        
         //Animation Stuff
         nFrame = 0;
-        nPos = 0;
+        nPos = 1;
         araniDude = new Animation[8];
         fW = txSheet.getWidth() / 8;
         fH = txSheet.getHeight() / 8;
@@ -63,8 +76,8 @@ public class ScrHouse implements Screen, InputProcessor{
             araniDude[i] = new Animation(0.8f, arSprDude);
 
         }
-        sprAni = new Sprite(txAni, 0, 0, fW, fH);
-        sprAni.setPosition(200, 200);
+        sprAni = new Sprite(txNamH, 0, 0, fW, fH);
+        sprAni.setPosition(Gdx.graphics.getWidth() / 2 - fW / 2, 375);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -74,8 +87,17 @@ public class ScrHouse implements Screen, InputProcessor{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float fSx = sprAni.getX();
         float fSy = sprAni.getY();
-        //Animation Stuff
         
+        //hit detection for door
+        if(sprAni.getY() > Gdx.graphics.getHeight() - 90){
+            nTrig = 1;
+        } else {
+            nTrig = 0;
+        }
+        if(nTrig == 1 && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+            gamMenu.updateState(5);
+        }
+        //Animation Stuff
         if (nFrame > 7) {
             nFrame = 0;
         }
@@ -118,15 +140,19 @@ public class ScrHouse implements Screen, InputProcessor{
                 sprAni.setPosition(fSx, fSy);
             }
         }
-                
+        
+        
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
-        btnMenu.draw(batch);
+        sprFloor.draw(batch);
         btnQuit.draw(batch);
         batch.draw(trTemp, fSx, fSy);
-        for(int i = 0; i < arWall.length; i++){
-        arWall[i].draw(batch);
+        if(nTrig == 1){
+        sprBox.draw(batch);
         }
+        /*for(int i = 0; i < arWall.length; i++){
+        arWall[i].draw(batch);
+        }*/
         batch.end();
     }
 
@@ -149,7 +175,7 @@ public class ScrHouse implements Screen, InputProcessor{
     @Override
     public void dispose() {
         batch.dispose();
-        txAni.dispose();
+        txNamH.dispose();
         txSheet.dispose();
     }
 
@@ -172,10 +198,7 @@ public class ScrHouse implements Screen, InputProcessor{
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
             //System.out.println(screenX +" " + screenY);
-            if (isHitB(screenX, screenY, btnMenu)) {
-                gamMenu.updateState(0);
-                System.out.println("Hit Menu");
-            } else if (isHitB(screenX, screenY, btnQuit)){
+             if (isHitB(screenX, screenY, btnQuit)){
                 System.out.println("Quit");
                 System.exit(0);
             } 

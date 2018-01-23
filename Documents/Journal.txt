@@ -164,3 +164,11 @@ January 22, 2018
 -Starting to implement door/house thing
 -House sprite is in place, relocates to scrMenu right now, until I can put a House screen in place
 -Trying to make a new Screen, ScrHouse, but it doesn't want to switch to the screen.
+
+January 23, 2018
+-Copy/pasting scrAniHit into scrHouse to test, to see if the code I had in scrHouse was the problem, not the code I had to switch in scrGame
+-That's not it, checking scrGame for problems
+-Whoops I forgot some steps on GamMenu, works now
+-Walls and floor in place for ScrHouse, Hit detection for door works
+-I made the little dude face the direction he would be had he actually gone through the door :)
+-Tomorrow: Make the table a collision object?

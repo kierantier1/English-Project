@@ -49,6 +49,7 @@ public class GamMenu extends Game {
         scrAnimation = new ScrAnimation(this);
         scrAniHit = new ScrAniHit(this);
         scrGame = new ScrGame(this);
+        scrHouse = new ScrHouse(this);
         updateState(0);
     }
 

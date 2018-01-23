@@ -82,7 +82,7 @@ public class ScrGame implements Screen, InputProcessor{
         sprHouse.setPosition(96, 196);
         //Animation Stuff
         nFrame = 0;
-        nPos = 0;
+        nPos = 4;
         araniDude = new Animation[8];
         fW = txSheet.getWidth() / 8;
         fH = txSheet.getHeight() / 8;
@@ -99,7 +99,7 @@ public class ScrGame implements Screen, InputProcessor{
 
         }
         sprAni = new Sprite(txNamGame, 0, 0, fW, fH);
-        sprAni.setPosition(200, 200);
+        sprAni.setPosition(110, 273);
         Gdx.input.setInputProcessor(this);
     }
 
