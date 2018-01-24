@@ -172,3 +172,6 @@ January 23, 2018
 -Walls and floor in place for ScrHouse, Hit detection for door works
 -I made the little dude face the direction he would be had he actually gone through the door :)
 -Tomorrow: Make the table a collision object?
+
+January 24, 2018
+-Starting to put together project
