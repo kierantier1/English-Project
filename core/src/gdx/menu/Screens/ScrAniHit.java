@@ -19,9 +19,9 @@ public class ScrAniHit implements Screen, InputProcessor{
     OrthographicCamera oc;
     Button btnMenu, btnSign, btnPlay, btnAni, btnQuit, btnGame;
     TextureRegion trTemp;
-    Texture txSheet, txNamAH, txMap;
-    Sprite sprNamAH, sprDude, sprAni, sprMap;   //sprAni is a ghost, a sprite used for hit detection
-    int nFrame, nPos, nX = 100, nY = 100;
+    Texture txSheet, txNamAH;
+    Sprite sprNamAH, sprDude, sprAni;   //sprAni is a ghost, a sprite used for hit detection
+    int nFrame, nPos, nX = 100, nY = 100;   //nX and nY coordinates for sprAni
     Animation araniDude[];
     int fW, fH, fSx, fSy;
     Wall[] arWall = new Wall[4];
@@ -37,23 +37,20 @@ public class ScrAniHit implements Screen, InputProcessor{
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
+        //Buttons
         btnMenu = new Button(100, 50, Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() - 50, "Menu.jpg");
         btnSign = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "SignB.png");
         btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Play.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         btnAni = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 0, "Animation.jpg");
         btnGame = new Button(100, 50, 0, 0, "Game.png");
+        
         txNamAH = new Texture("A.jpg");
         txSheet = new Texture("Vlad.png");
-        sprNamAH = new Sprite(txNamAH);
+        sprNamAH = new Sprite(txNamAH); //Screen Name sprite
         sprNamAH.setFlip(false, true);
         sprNamAH.setSize(60, 80);
         sprNamAH.setPosition(Gdx.graphics.getWidth()/2 - 30, Gdx.graphics.getHeight()/2 - 40);
-        txMap = new Texture("Map so far.png");
-        //sprMap = new Sprite(txMap);
-        //sprMap.setScale(4);
-        //sprMap.setPosition(Gdx.graphics.getWidth() / 2 - sprMap.getWidth() / 2, Gdx.graphics.getHeight() / 2 - sprMap.getHeight() / 2);
-        //sprMap.setFlip(false, true);
         arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 50);   //Top Wall
         arWall[1] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);    //Bottom Wall
         arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 200, 0, 100);   //Left Wall
@@ -77,7 +74,7 @@ public class ScrAniHit implements Screen, InputProcessor{
             araniDude[i] = new Animation(0.8f, arSprDude);
 
         }
-        sprAni = new Sprite(txNamAH, 0, 0, fW, fH);
+        sprAni = new Sprite(txNamAH, 0, 0, fW, fH); //this sprite is never drawn, just used for Hit detection of the animation
         sprAni.setPosition(200, 200);
         Gdx.input.setInputProcessor(this);
     }
@@ -193,7 +190,6 @@ public class ScrAniHit implements Screen, InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
-            //System.out.println(screenX +" " + screenY);
             if (isHitB(screenX, screenY, btnMenu)) {
                 gamMenu.updateState(0);
                 System.out.println("Hit Menu");
