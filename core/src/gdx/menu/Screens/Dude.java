@@ -6,7 +6,7 @@ import com.badlogic.gdx.Gdx;
 
 public class Dude extends Sprite{
     public Dude(int nW, int nH, int nX, int nY){
-        super(new Texture(Gdx.files.internal("boye.jpg"))); //you know i had to do it to em picture
+        super(new Texture(Gdx.files.internal("boye.jpg"))); //https://stackoverflow.com/questions/32654526/libgdx-sprite-from-custom-class-is-not-showing-up
         setSize(nW, nH);
         setPosition(nX, nY);    //You know, I only used this in ScrPlay and ScrSign, seems like a waste
         setFlip(false, true);
