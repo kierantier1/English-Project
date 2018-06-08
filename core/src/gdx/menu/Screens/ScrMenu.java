@@ -13,12 +13,11 @@ import gdx.menu.GamMenu;
 
 public class ScrMenu implements Screen, InputProcessor {
 
-    Button btnPlay, btnAni, btnSign, btnQuit, btnAH, btnGame;
+    Button btnPlay, btnQuit;
     GamMenu gamMenu;
     Texture txButtonP, txButtonT, txNamM;
     OrthographicCamera oc;
     SpriteBatch batch;
-    Sprite sprNamM;
 
     public ScrMenu(GamMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
@@ -30,17 +29,9 @@ public class ScrMenu implements Screen, InputProcessor {
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         batch = new SpriteBatch();
-        btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Play.jpg");
-        btnAni = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "Animation.jpg");
-        btnSign = new Button(100, 50, Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() - 50, "SignB.png");
-        btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
-        btnAH = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 0, "AniHit.png");
-        btnGame = new Button(100, 50, 0, 0, "Game.png");
+        btnPlay = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 150, "Play.jpg");
+        btnQuit = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 250, "Quit.jpg");
         txNamM = new Texture("M.jpg");
-        sprNamM = new Sprite(txNamM);
-        sprNamM.setFlip(false, true);
-        sprNamM.setSize(60, 80);
-        sprNamM.setPosition(Gdx.graphics.getWidth() / 2 - 30, Gdx.graphics.getHeight() / 2 - 40);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -50,13 +41,8 @@ public class ScrMenu implements Screen, InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
-        sprNamM.draw(batch);
         btnPlay.draw(batch);
-        btnAni.draw(batch);
-        btnSign.draw(batch);
         btnQuit.draw(batch);
-        btnAH.draw(batch);
-        btnGame.draw(batch);
         batch.end();
     }
 
@@ -103,22 +89,10 @@ public class ScrMenu implements Screen, InputProcessor {
             if (isHit(screenX, screenY, btnPlay)) {
                 System.out.println("Hit Play");
                 gamMenu.updateState(1);
-            } else if (isHit(screenX, screenY, btnAni)) {
-                System.out.println("Hit Animation");
-                gamMenu.updateState(3);
-            } else if(isHit(screenX, screenY, btnSign)){
-                System.out.println("Hit Sign");
-                gamMenu.updateState(2);
             } else if(isHit(screenX, screenY, btnQuit)){
                 System.out.println("Quit");
                 System.exit(0);
-            } else if(isHit(screenX, screenY, btnAH)){
-                System.out.println("Hit AniHit");
-                gamMenu.updateState(4);
-            } else if(isHit(screenX, screenY, btnGame)){
-                System.out.println("Hit Game");
-                gamMenu.updateState(5);
-            }
+            } 
         }
         return false;
     }
