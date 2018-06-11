@@ -30,7 +30,7 @@ public class ScrSign implements Screen, InputProcessor {
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         batch = new SpriteBatch();
-        btnMenu = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, Gdx.graphics.getHeight() - 50, "Menu.jpg");
+        btnMenu = new Button(100, 50, 0, 0, "Menu.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         dud1 = new Dude(50, 100, 200, 250);
         txSign = new Texture("Sign.png");
