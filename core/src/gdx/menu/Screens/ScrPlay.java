@@ -73,6 +73,9 @@ public class ScrPlay implements Screen, InputProcessor {
             araniDude[i] = new Animation(0.8f, arSprDude);
 
         }
+        sprHD = new Sprite(txDoor, 0, 0, fW, fH);
+        sprHD.setPosition(200, 200);
+        
         Gdx.input.setInputProcessor(this);
     }
 
@@ -81,36 +84,38 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.gl.glClearColor(.135f, .206f, .235f, 1); //blue background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
+        float fSx = sprHD.getX();
+        float fSy = sprHD.getY();
         if (nFrame > 7) {
             nFrame = 0;
         }
         trTemp = araniDude[nPos].getKeyFrame(nFrame, false);
         
-        if(isHitS(dud1, sprDoor) && nTrig == 0){
+        if(isHitS(sprHD, sprDoor) && nTrig == 0){
             nTrig = 1;
-        } else if(! isHitS(dud1, sprDoor)){
+        } else if(! isHitS(sprHD, sprDoor)){
             nTrig = 0;
         }
         if(nTrig == 1 && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
             gamMenu.updateState(2);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            nX = nX - 5;
+            sprHD.setX(sprHD.getX() - 5);
             nPos = 7;
             nFrame++;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            nX = nX + 5;
+            sprHD.setX(sprHD.getX() + 5);
             nPos = 0;
             nFrame++;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            nY = nY + 5;
+            sprHD.setY(sprHD.getY() + 5);
             nPos = 4;
             nFrame++;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            nY = nY - 5;
+            sprHD.setY(sprHD.getY() - 5);
             nPos = 1;
             nFrame++;
         }if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.UP)){
@@ -134,7 +139,7 @@ public class ScrPlay implements Screen, InputProcessor {
         }*/
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
-        batch.draw(trTemp, nX, nY);
+        batch.draw(trTemp, fSx, fSy);
         btnMenu.draw(batch);
         btnQuit.draw(batch);
         sprDoor.draw(batch);

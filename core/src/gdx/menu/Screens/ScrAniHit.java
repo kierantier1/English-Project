@@ -126,7 +126,7 @@ public class ScrAniHit implements Screen, InputProcessor{
         btnQuit.draw(batch);
         batch.draw(trTemp, fSx, fSy);
         for(int i = 0; i < arWall.length; i++){
-        arWall[i].draw(batch);
+            arWall[i].draw(batch);
         }
         batch.end();
     }
