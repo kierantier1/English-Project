@@ -13,14 +13,14 @@ import gdx.menu.GamMenu;
 
 public class ScrPlay implements Screen, InputProcessor {
     Dude dud1;
-    Button btnSign, btnAni, btnMenu, btnQuit, btnAH, btnGame;
+    Button btnMenu, btnQuit;
     Wall[] arWall = new Wall[4];
     GamMenu gamMenu;
     OrthographicCamera oc;
     SpriteBatch batch;
-    Texture txNamP, txWall;
-    Sprite sprNamP;
-
+    Texture txWall, txDoor;
+    Sprite sprDoor;
+    
     public ScrPlay(GamMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
@@ -32,23 +32,16 @@ public class ScrPlay implements Screen, InputProcessor {
         oc.update();
         txWall = new Texture("Wall.jpg");
         //Setting up Walls
-        arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 50);    //Top Wall
+        /*arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 50);    //Top Wall
         arWall[1] = new Wall(50, Gdx.graphics.getHeight() - 100, Gdx.graphics.getWidth() - 50, 50);   //Right Wall
         arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 100, 0, 50);     //Left Wall
-        arWall[3] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);       //Bottom Wall
+        arWall[3] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);*/       //Bottom Wall
+        txDoor = new Texture("Door.png");
+        sprDoor = new Sprite(txDoor, 50, 50, Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight()/2);
         batch = new SpriteBatch();
-        txNamP = new Texture("P.jpg");
-        sprNamP = new Sprite(txNamP);
-        sprNamP.setSize(60, 80);
-        sprNamP.setFlip(false, true);
-        sprNamP.setPosition(Gdx.graphics.getWidth() / 2 - 30, Gdx.graphics.getHeight() / 2 - 40);
         dud1 = new Dude(50, 100, 200, 250);
-        btnAni = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "Animation.jpg");
-        btnSign = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "SignB.png");
-        btnMenu = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, Gdx.graphics.getHeight()- 50, "Menu.jpg");
-        btnAH = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 0, "AniHit.png");
+        btnMenu = new Button(100, 50, 0, 0, "Menu.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
-        btnGame = new Button(100, 50, 0, 0, "Game.png");
         Gdx.input.setInputProcessor(this);
     }
 
@@ -70,27 +63,23 @@ public class ScrPlay implements Screen, InputProcessor {
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             dud1.setY(dud1.getY() - 5);
         }
-        if (isHitS(dud1, sprNamP)) {
-            dud1.setPosition(fSx, fSy);
+        if(isHitS(dud1, sprDoor)){
+            
         }
-        for (int i = 0; i < arWall.length; i++) {
+        /*for (int i = 0; i < arWall.length; i++) {
             if (isHitS(dud1, arWall[i])) {
                 dud1.setPosition(fSx, fSy);
             }
-        }
+        }*/
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
-        btnAni.draw(batch);
-        btnSign.draw(batch);
         btnMenu.draw(batch);
-        sprNamP.draw(batch);
         btnQuit.draw(batch);
-        btnAH.draw(batch);
-        btnGame.draw(batch);
         dud1.draw(batch);
-        for (int i = 0; i < arWall.length; i++) {
+        /*for (int i = 0; i < arWall.length; i++) {
             arWall[i].draw(batch);
-        }
+        }*/
+        sprDoor.draw(batch);
         batch.end();
 
     }
@@ -114,7 +103,6 @@ public class ScrPlay implements Screen, InputProcessor {
     @Override
     public void dispose() {
         batch.dispose();
-        txNamP.dispose();
     }
 
     @Override
@@ -136,28 +124,18 @@ public class ScrPlay implements Screen, InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
             //System.out.println(screenX +" " + screenY);
-            if (isHitB(screenX, screenY, btnAni)) {
-                gamMenu.updateState(3);
-                System.out.println("Hit Tools");
-            } else if (isHitB(screenX, screenY, btnSign)) {
-                gamMenu.updateState(2);
-                System.out.println("Hit Sign");
-            } else if (isHitB(screenX, screenY, btnMenu)){
+            
+            if (isHitB(screenX, screenY, btnMenu)){
                 gamMenu.updateState(0);
                 System.out.println("Hit Menu");
             } else if (isHitB(screenX, screenY, btnQuit)){
                 System.out.println("Quit");
                 System.exit(0);
-            } else if (isHitB(screenX, screenY, btnAH)){
-                System.out.println("Hit AniHit");
-                gamMenu.updateState(4);
-            } else if (isHitB(screenX, screenY, btnGame)){
-                System.out.println("Hit Game");
-                gamMenu.updateState(5);
             }
         }
         return false;
     }
+    
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {

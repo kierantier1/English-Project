@@ -13,12 +13,12 @@ import gdx.menu.GamMenu;
 
 public class ScrSign implements Screen, InputProcessor {
     Dude dud1;
-    Button btnMenu, btnPlay, btnAni, btnQuit, btnAH, btnGame;
+    Button btnMenu, btnQuit;
     OrthographicCamera oc;
-    Texture txNamS, txSign, txBox1, txBox2;
+    Texture txSign, txBox1, txBox2;
     GamMenu gamMenu;
     SpriteBatch batch;
-    Sprite sprNamSign, sprSign, sprBox1, sprBox2;
+    Sprite sprSign, sprBox1, sprBox2;
     int nTrig = 0; //Trigger variable for sign
     public ScrSign(GamMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
@@ -30,17 +30,8 @@ public class ScrSign implements Screen, InputProcessor {
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         batch = new SpriteBatch();
-        btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Play.jpg");
         btnMenu = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, Gdx.graphics.getHeight() - 50, "Menu.jpg");
-        btnAni = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight()-50, "Animation.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
-        btnAH = new Button(100, 50, Gdx.graphics.getWidth() / 2 - 50, 0, "AniHit.png");
-        btnGame = new Button(100, 50, 0, 0, "Game.png");
-        txNamS = new Texture("S.png");
-        sprNamSign = new Sprite(txNamS);
-        sprNamSign.setFlip(false, true);
-        sprNamSign.setSize(60, 80);
-        sprNamSign.setPosition(Gdx.graphics.getWidth() / 2 - 30, Gdx.graphics.getHeight() / 2 - 40);
         dud1 = new Dude(50, 100, 200, 250);
         txSign = new Texture("Sign.png");
         sprSign = new Sprite(txSign);
@@ -88,15 +79,10 @@ public class ScrSign implements Screen, InputProcessor {
         }
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
-        btnPlay.draw(batch);
         btnMenu.draw(batch);
-        btnAni.draw(batch);
-        sprNamSign.draw(batch);
         sprSign.draw(batch);
         btnQuit.draw(batch);
         dud1.draw(batch);
-        btnAH.draw(batch);
-        btnGame.draw(batch);
         if(nTrig == 1){
             sprBox1.draw(batch);
         } else if(nTrig == 3){
@@ -128,7 +114,6 @@ public class ScrSign implements Screen, InputProcessor {
     @Override
     public void dispose() {
         batch.dispose();
-        txNamS.dispose();
     }
 
     @Override
@@ -149,25 +134,13 @@ public class ScrSign implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
-            if (isHitB(screenX, screenY, btnPlay)) {
-                gamMenu.updateState(1);
-                System.out.println("Hit Play");
-            } else if (isHitB(screenX, screenY, btnMenu)) {
+            if (isHitB(screenX, screenY, btnMenu)) {
                 gamMenu.updateState(0);
                 System.out.println("Hit Menu");
-            } else if(isHitB(screenX, screenY, btnAni)){
-                gamMenu.updateState(3);
-                System.out.println("Hit Animation");
-            } else if(isHitB(screenX, screenY, btnQuit)){
+            }else if(isHitB(screenX, screenY, btnQuit)){
                 System.out.println("Quit");
                 System.exit(0);
-            } else if(isHitB(screenX, screenY, btnAH)){
-                System.out.println("Hit AniHit");
-                gamMenu.updateState(4);
-            } else if(isHitB(screenX, screenY, btnGame)){
-                System.out.println("Hit Game");
-                gamMenu.updateState(5);
-            }
+            } 
         }
         return false;
     }

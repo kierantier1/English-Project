@@ -19,7 +19,7 @@ public class ScrHouse implements Screen, InputProcessor{
     OrthographicCamera oc;
     Button btnQuit;
     TextureRegion trTemp;
-    Texture txNamH, txSheet, txFloor, txTextBox;
+    Texture txSheet, txFloor, txTextBox;
     Sprite sprDude, sprDoor, sprAni, sprFloor, sprBox;   //sprAni is a ghost, a sprite used for hit detection
     int nFrame, nPos, nX = 100, nY = 100, nTrig;
     Animation araniDude[];
@@ -40,7 +40,6 @@ public class ScrHouse implements Screen, InputProcessor{
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         txSheet = new Texture("Vlad.png");
         txTextBox = new Texture("Textbox4.png");
-        txNamH = new Texture("A.jpg");
         txFloor = new Texture("InHouse.png");
         sprFloor = new Sprite(txFloor);
         sprFloor.setScale(2.3f);
@@ -76,7 +75,7 @@ public class ScrHouse implements Screen, InputProcessor{
             araniDude[i] = new Animation(0.8f, arSprDude);
 
         }
-        sprAni = new Sprite(txNamH, 0, 0, fW, fH);
+        sprAni = new Sprite(txSheet, 0, 0, fW, fH);
         sprAni.setPosition(Gdx.graphics.getWidth() / 2 - fW / 2, 375);
         Gdx.input.setInputProcessor(this);
     }
@@ -175,7 +174,6 @@ public class ScrHouse implements Screen, InputProcessor{
     @Override
     public void dispose() {
         batch.dispose();
-        txNamH.dispose();
         txSheet.dispose();
     }
 

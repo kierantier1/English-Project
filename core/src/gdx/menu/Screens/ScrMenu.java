@@ -15,7 +15,7 @@ public class ScrMenu implements Screen, InputProcessor {
 
     Button btnPlay, btnQuit;
     GamMenu gamMenu;
-    Texture txButtonP, txButtonT, txNamM;
+    Texture txButtonP, txButtonT;
     OrthographicCamera oc;
     SpriteBatch batch;
 
@@ -29,9 +29,8 @@ public class ScrMenu implements Screen, InputProcessor {
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         batch = new SpriteBatch();
-        btnPlay = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 150, "Play.jpg");
-        btnQuit = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 250, "Quit.jpg");
-        txNamM = new Texture("M.jpg");
+        btnPlay = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 200, "Play.jpg");
+        btnQuit = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 350, "Quit.jpg");
         Gdx.input.setInputProcessor(this);
     }
 
@@ -65,7 +64,6 @@ public class ScrMenu implements Screen, InputProcessor {
     @Override
     public void dispose() {
         batch.dispose();
-        txNamM.dispose();
     }
 
     @Override

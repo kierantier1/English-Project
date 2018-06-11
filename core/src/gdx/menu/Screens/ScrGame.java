@@ -17,10 +17,10 @@ public class ScrGame implements Screen, InputProcessor{
     SpriteBatch batch;
     GamMenu gamMenu;
     OrthographicCamera oc;
-    Button btnMenu, btnSign, btnPlay, btnAni, btnQuit, btnAH;
+    Button btnMenu, btnQuit;
     TextureRegion trTemp;
-    Texture txSheet, txNamGame, txMap, txSign, txTextbox1, txTextbox2, txTextbox3, txHouse;
-    Sprite sprNamGame, sprDude, sprAni, sprMap, sprSign, sprHouse;   //sprAni is a ghost, a sprite used for hit detection, maybe a bit redundant
+    Texture txSheet, txMap, txSign, txTextbox1, txTextbox2, txTextbox3, txHouse;
+    Sprite sprDude, sprAni, sprMap, sprSign, sprHouse;   //sprAni is a ghost, a sprite used for hit detection, maybe a bit redundant
     Sprite arsprTextbox[] = new Sprite[3];
     int nFrame, nPos, nX = 100, nY = 100, nTrig = 0;
     Animation araniDude[];
@@ -39,17 +39,8 @@ public class ScrGame implements Screen, InputProcessor{
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         btnMenu = new Button(100, 50, Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() - 50, "Menu.jpg");
-        btnSign = new Button(100, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 50, "SignB.png");
-        btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "Play.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
-        btnAni = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 0, "Animation.jpg");
-        btnAH = new Button(100, 50, 0, 0, "AniHit.png");
-        txNamGame = new Texture("G.png");
         txSheet = new Texture("Vlad.png");
-        sprNamGame = new Sprite(txNamGame);
-        sprNamGame.setFlip(false, true);
-        sprNamGame.setSize(60, 80);
-        sprNamGame.setPosition(Gdx.graphics.getWidth()/2 - 30, Gdx.graphics.getHeight()/2 - 40);
         txTextbox1 = new Texture("Textbox.png");
         txTextbox2 = new Texture("Textbox2.png");
         txTextbox3 = new Texture("Textbox3.png");
@@ -98,7 +89,7 @@ public class ScrGame implements Screen, InputProcessor{
             araniDude[i] = new Animation(0.8f, arSprDude);
 
         }
-        sprAni = new Sprite(txNamGame, 0, 0, fW, fH);
+        sprAni = new Sprite(txSign, 0, 0, fW, fH);
         sprAni.setPosition(110, 273);
         Gdx.input.setInputProcessor(this);
     }
@@ -174,12 +165,7 @@ public class ScrGame implements Screen, InputProcessor{
         batch.setProjectionMatrix(oc.combined);
         sprMap.draw(batch);
         btnMenu.draw(batch);
-        btnSign.draw(batch);
-        btnPlay.draw(batch);
         btnQuit.draw(batch);
-        sprNamGame.draw(batch);
-        btnAni.draw(batch);
-        btnAH.draw(batch);
         sprSign.draw(batch);
         sprHouse.draw(batch);
         batch.draw(trTemp, fSx, fSy);
@@ -215,7 +201,6 @@ public class ScrGame implements Screen, InputProcessor{
     @Override
     public void dispose() {
         batch.dispose();
-        txNamGame.dispose();
     }
 
     @Override
@@ -240,22 +225,10 @@ public class ScrGame implements Screen, InputProcessor{
             if (isHitB(screenX, screenY, btnMenu)) {
                 gamMenu.updateState(0);
                 System.out.println("Hit Menu");
-            } else if (isHitB(screenX, screenY, btnSign)) {
-                gamMenu.updateState(2);
-                System.out.println("Hit Sign");
-            } else if (isHitB(screenX, screenY, btnPlay)){
-                gamMenu.updateState(1);
-                System.out.println("Hit Play");
             } else if (isHitB(screenX, screenY, btnQuit)){
                 System.out.println("Quit");
                 System.exit(0);
-            } else if (isHitB(screenX, screenY, btnAni)){
-                System.out.println("Hit Animation");
-                gamMenu.updateState(3);
-            } else if (isHitB(screenX, screenY, btnAH)){
-                System.out.println("Hit AniHit");
-                gamMenu.updateState(4);
-            }
+            } 
         }
         return false;
     }
