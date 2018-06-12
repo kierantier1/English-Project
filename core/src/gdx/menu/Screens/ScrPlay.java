@@ -100,22 +100,22 @@ public class ScrPlay implements Screen, InputProcessor {
             gamMenu.updateState(2);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            sprHD.setX(sprHD.getX() - 5);
+            sprHD.setX(sprHD.getX() - 3);
             nPos = 7;
             nFrame++;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            sprHD.setX(sprHD.getX() + 5);
+            sprHD.setX(sprHD.getX() + 3);
             nPos = 0;
             nFrame++;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            sprHD.setY(sprHD.getY() + 5);
+            sprHD.setY(sprHD.getY() + 3);
             nPos = 4;
             nFrame++;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            sprHD.setY(sprHD.getY() - 5);
+            sprHD.setY(sprHD.getY() - 3);
             nPos = 1;
             nFrame++;
         }if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.UP)){

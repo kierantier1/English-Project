@@ -9,85 +9,110 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gdx.menu.GamMenu;
 
 public class ScrSign implements Screen, InputProcessor {
-    Dude dud1;
     Button btnMenu, btnQuit;
-    OrthographicCamera oc;
-    Texture txSign, txBox1, txBox2;
     GamMenu gamMenu;
+    OrthographicCamera oc;
+    Texture txButtonM, txButtonQ, txSheet, txDoor;
+    Animation araniDude[];
+    TextureRegion trTemp;
+    int fW, fH, fSx, fSy;
+    int nFrame, nPos, nTrig = 0;
+    int nX = 100, nY = 100;
+    Sprite sprButtonMenu, sprDude, sprDoor;
     SpriteBatch batch;
-    Sprite sprSign, sprBox1, sprBox2;
-    int nTrig = 0; //Trigger variable for sign
     public ScrSign(GamMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
 
     @Override
     public void show() {
+         batch = new SpriteBatch();
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
-        batch = new SpriteBatch();
+        //Buttons
         btnMenu = new Button(100, 50, 0, 0, "Menu.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
-        dud1 = new Dude(50, 100, 200, 250);
-        txSign = new Texture("Sign.png");
-        sprSign = new Sprite(txSign);
-        sprSign.setPosition(150, 150);
-        sprSign.setSize(50,50);
-        sprSign.setFlip(false, true);
-        txBox1 = new Texture("Textbox.png");
-        sprBox1 = new Sprite(txBox1);
-        sprBox1.setSize(300, 125);
-        sprBox1.setPosition(Gdx.graphics.getWidth()/2 - sprBox1.getWidth()/2, 0);
-        sprBox1.setFlip(false, true);
-        txBox2 = new Texture("Textbox2.png");
-        sprBox2 = new Sprite(txBox2);
-        sprBox2.setPosition(Gdx.graphics.getWidth()/2 - sprBox1.getWidth()/2, 0);
-        sprBox2.setSize(300, 125);
-        sprBox2.setFlip(false, true);
+        txDoor = new Texture("Door.png");
+        txSheet = new Texture("Vlad.png");
+        
+        sprDoor = new Sprite(txDoor);
+        sprDoor.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() / 2 - 50);
+        sprDoor.setSize(100, 100);
+        sprDoor.setFlip(false, true);        
+        //Animation Stuff
+        nFrame = 0;
+        nPos = 0;
+        araniDude = new Animation[8];
+        fW = txSheet.getWidth() / 8;
+        fH = txSheet.getHeight() / 8;
+        for (int i = 0; i < 8; i++) {
+            Sprite[] arSprDude = new Sprite[8];
+            for (int j = 0; j < 8; j++) {
+                fSx = j * fW;
+                fSy = i * fH;
+                sprDude = new Sprite(txSheet, fSx, fSy, fW, fH);
+                sprDude.setFlip(false, true);
+                arSprDude[j] = new Sprite(sprDude);
+            }
+            araniDude[i] = new Animation(0.8f, arSprDude);
+
+        }
         Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void render(float Delta) {
-        Gdx.gl.glClearColor(0, 0, 1, 1); //Blue background.
+        Gdx.gl.glClearColor(0, 1, 1, 1); //Cyan background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
+        //Animation Stuff
+        
+        if (nFrame > 7) {
+            nFrame = 0;
+        }
+        trTemp = araniDude[nPos].getKeyFrame(nFrame, false);
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            dud1.setX(dud1.getX()-5);
+            nX = nX-=3;
+            nPos = 7;
+            nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            dud1.setX(dud1.getX()+5);
+            nX = nX+=3;
+            nPos = 0;
+            nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            dud1.setY(dud1.getY()-5);
+            nY = nY-=3;
+            nPos = 1;
+            nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            dud1.setY(dud1.getY()+5);
+            nY = nY+=3;
+            nPos = 4;
+            nFrame++;
+        } if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.UP)){
+            nPos = 3;
+            nFrame--;
+        } if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            nPos = 6;
+            nFrame--;
+        } if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.UP)){
+            nPos = 2;
+            nFrame--;
+        } if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            nPos = 5;
+            nFrame--;
         }
-
-        if(isHitS(dud1, sprSign) && nTrig == 0){
-            System.out.println("Read Sign");
-            nTrig = 1;
-        } else if(isHitS(dud1, sprSign) && nTrig == 3){
-            nTrig = 3;
-        }else if(! isHitS(dud1, sprSign)){
-            nTrig = 0;
-        }
-        if(nTrig == 1 && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
-            nTrig = 3;
-        }
+        
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
+        batch.draw(trTemp, nX, nY);
+        sprDoor.draw(batch);
         btnMenu.draw(batch);
-        sprSign.draw(batch);
         btnQuit.draw(batch);
-        dud1.draw(batch);
-        if(nTrig == 1){
-            sprBox1.draw(batch);
-        } else if(nTrig == 3){
-            sprBox2.draw(batch);
-        }
         batch.end();
     }
 
