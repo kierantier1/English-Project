@@ -11,19 +11,21 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import gdx.menu.GamMenu;
 
 public class ScrSign implements Screen, InputProcessor {
     Button btnMenu, btnQuit;
+    Textbox tbDoor;
     GamMenu gamMenu;
     OrthographicCamera oc;
-    Texture txButtonM, txButtonQ, txSheet, txDoor;
+    Texture txButtonM, txButtonQ, txSheet, txDoor, txTB;
     Animation araniDude[];
     TextureRegion trTemp;
     int fW, fH, fSx, fSy;
     int nFrame, nPos, nTrig = 0;
     int nX = 100, nY = 100;
-    Sprite sprButtonMenu, sprDude, sprDoor;
+    Sprite sprButtonMenu, sprDude, sprDoor, sprTB, sprHD;   //HD = hit detection
     SpriteBatch batch;
     public ScrSign(GamMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
@@ -40,7 +42,7 @@ public class ScrSign implements Screen, InputProcessor {
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         txDoor = new Texture("Door.png");
         txSheet = new Texture("Vlad.png");
-        
+        tbDoor = new Textbox("yeet");
         sprDoor = new Sprite(txDoor);
         sprDoor.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() / 2 - 50);
         sprDoor.setSize(100, 100);
@@ -63,6 +65,8 @@ public class ScrSign implements Screen, InputProcessor {
             araniDude[i] = new Animation(0.8f, arSprDude);
 
         }
+        sprHD = new Sprite(txDoor, 0, 0, fW, fH);
+        sprHD.setPosition(nX, nY);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -77,6 +81,12 @@ public class ScrSign implements Screen, InputProcessor {
             nFrame = 0;
         }
         trTemp = araniDude[nPos].getKeyFrame(nFrame, false);
+        if(isHitS(sprHD, sprDoor) && nTrig == 0){
+            nTrig = 1;
+        } else if(! isHitS(sprHD, sprDoor)){
+            nTrig = 0;
+        }
+        
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             nX = nX-=3;
             nPos = 7;
@@ -112,6 +122,11 @@ public class ScrSign implements Screen, InputProcessor {
         batch.draw(trTemp, nX, nY);
         sprDoor.draw(batch);
         btnMenu.draw(batch);
+        tbDoor.draw(batch);
+        if(nTrig == 1){
+            sprTB.draw(batch);
+        }
+        
         btnQuit.draw(batch);
         batch.end();
     }
