@@ -42,7 +42,7 @@ public class ScrSign implements Screen, InputProcessor {
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         txDoor = new Texture("Door.png");
         txSheet = new Texture("Vlad.png");
-        tbDoor = new Textbox("yeet");
+        tbDoor = new Textbox(350, 125, Gdx.graphics.getWidth() / 2 - 175, -40);
         sprDoor = new Sprite(txDoor);
         sprDoor.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() / 2 - 50);
         sprDoor.setSize(100, 100);

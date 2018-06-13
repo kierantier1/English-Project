@@ -9,20 +9,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gdx.menu.GamMenu;
 
 public class ScrPlay implements Screen, InputProcessor {
     Button btnMenu, btnQuit;
+    Dude dudGhost;
     Wall[] arWall = new Wall[4];
     GamMenu gamMenu;
+    BitmapFont bmf;
+    String sGhost, sDoor;
     OrthographicCamera oc;
+    Textbox tbDoor;
     SpriteBatch batch;
-    Texture txWall, txDoor, txTB, txSheet;
+    Texture txWall, txDoor, txSheet;
     TextureRegion trTemp;
     Animation araniDude[];
-    Sprite sprDoor, sprTB, sprDude, sprHD;  //sprHD is for hit detection of the animation
+    Sprite sprDoor, sprDude, sprHD;  //sprHD is for hit detection of the animation
     int nTrig = 0; //Trigger for Door
     int nFrame = 0, nPos = 0;
     int fW, fH, fSx, fSy;
@@ -43,18 +49,19 @@ public class ScrPlay implements Screen, InputProcessor {
         arWall[1] = new Wall(50, Gdx.graphics.getHeight() - 100, Gdx.graphics.getWidth() - 50, 50);   //Right Wall
         arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 100, 0, 50);     //Left Wall
         arWall[3] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);*/       //Bottom Wall
-        
+        bmf = new BitmapFont(true);
+        //Put text in, position it
+        sDoor = "Press Enter to go through";
+        sGhost = "Hamlet my son, you must avenge me!";
+        dudGhost = new Dude(25, 50, 200, 200, "hamlet sr.png");
         txSheet = new Texture("Vlad.png");
         txDoor = new Texture("Door.png");
         sprDoor = new Sprite(txDoor);
-        sprDoor.setSize(100, 100);
+        
+        sprDoor.setSize(75, 75);
         sprDoor.setFlip(false, true);
         sprDoor.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight()/2);
-        txTB = new Texture("Textbox5.png");
-        sprTB = new Sprite(txTB);
-        sprTB.setSize(300, 125);
-        sprTB.setPosition(Gdx.graphics.getWidth()/2 - 150, 0);
-        sprTB.setFlip(false, true);
+        tbDoor = new Textbox(350, 125, Gdx.graphics.getWidth() / 2 - 175, -40);
         batch = new SpriteBatch();
         btnMenu = new Button(100, 50, 0, 0, "Menu.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
@@ -74,7 +81,7 @@ public class ScrPlay implements Screen, InputProcessor {
 
         }
         sprHD = new Sprite(txDoor, 0, 0, fW, fH);
-        sprHD.setPosition(200, 200);
+        sprHD.setPosition(0, Gdx.graphics.getHeight() / 2);
         
         Gdx.input.setInputProcessor(this);
     }
@@ -93,7 +100,11 @@ public class ScrPlay implements Screen, InputProcessor {
         
         if(isHitS(sprHD, sprDoor) && nTrig == 0){
             nTrig = 1;
-        } else if(! isHitS(sprHD, sprDoor)){
+        }
+        if(isHitS(sprHD, dudGhost)){
+            nTrig = 2;
+        } 
+        if(! isHitS(sprHD, dudGhost) && ! isHitS(sprHD, sprDoor)){
             nTrig = 0;
         }
         if(nTrig == 1 && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
@@ -143,9 +154,16 @@ public class ScrPlay implements Screen, InputProcessor {
         btnMenu.draw(batch);
         btnQuit.draw(batch);
         sprDoor.draw(batch);
+        dudGhost.draw(batch);
         //dud1.draw(batch);
         if(nTrig == 1){
-            sprTB.draw(batch);
+            tbDoor.draw(batch);
+            bmf.setColor(Color.BLACK);
+            bmf.draw(batch, sDoor, Gdx.graphics.getWidth() / 2 - 70, 20);
+        }else if(nTrig == 2){
+            tbDoor.draw(batch);
+            bmf.setColor(Color.BLACK);
+            bmf.draw(batch, sGhost, Gdx.graphics.getWidth() / 2 - 110, 20);
         }
         /*for (int i = 0; i < arWall.length; i++) {
             arWall[i].draw(batch);

@@ -7,12 +7,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Textbox extends Sprite{
-    public Textbox(String sText){
+    public Textbox(int nW, int nH, int nX, int nY){
         super(new Texture(Gdx.files.internal("Sign Template.png")));
-        SpriteBatch batch = new SpriteBatch();
-        BitmapFont bmf = new BitmapFont(true);
-        setSize(300, 125);
-        setPosition(Gdx.graphics.getWidth() / 2 - 150, 0);
-        bmf.draw(batch, sText, Gdx.graphics.getWidth() / 2 - 125, 5);
+        setSize(nW, nH);
+        setPosition(nX, nY);
+        
     }
 }
