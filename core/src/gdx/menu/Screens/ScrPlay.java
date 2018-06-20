@@ -17,15 +17,16 @@ import gdx.menu.GamMenu;
 
 public class ScrPlay implements Screen, InputProcessor {
     Button btnMenu, btnQuit;
-    Dude dudGhost;
+    Dude dudGhost, dudGuard;
     Wall[] arWall = new Wall[4];
+    Dude[] arTurret = new Dude[3];
     GamMenu gamMenu;
     BitmapFont bmf;
-    String sGhost, sDoor;
+    String sGhost, sDoor, sGuard;
     OrthographicCamera oc;
     Textbox tbDoor;
     SpriteBatch batch;
-    Texture txWall, txDoor, txSheet;
+    Texture txDoor, txSheet;
     TextureRegion trTemp;
     Animation araniDude[];
     Sprite sprDoor, sprDude, sprHD;  //sprHD is for hit detection of the animation
@@ -43,25 +44,29 @@ public class ScrPlay implements Screen, InputProcessor {
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
-        txWall = new Texture("Wall.jpg");
         //Setting up Walls
-        /*arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 50);    //Top Wall
-        arWall[1] = new Wall(50, Gdx.graphics.getHeight() - 100, Gdx.graphics.getWidth() - 50, 50);   //Right Wall
-        arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 100, 0, 50);     //Left Wall
-        arWall[3] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);*/       //Bottom Wall
+        arWall[0] = new Wall(Gdx.graphics.getWidth(), 25, 0, 120);    //Top Wall
+        arWall[1] = new Wall(25, Gdx.graphics.getHeight() - 300, Gdx.graphics.getWidth() - 25, 120);   //Right Wall
+        arWall[2] = new Wall(25, Gdx.graphics.getHeight() - 300, 0, 120);     //Left Wall
+        arWall[3] = new Wall(Gdx.graphics.getWidth(), 25, 0, 300);       //Bottom Wall
         bmf = new BitmapFont(true);
-        //Put text in, position it
+        
         sDoor = "Press Enter to go through";
         sGhost = "Hamlet my son, you must avenge me!";
-        dudGhost = new Dude(25, 50, 200, 200, "hamlet sr.png");
+        sGuard = "Behold, an apparition resembling the King!";
+        dudGhost = new Dude(25, 50, 400, 200, "hamlet sr.png");
+        arTurret[0] = new Dude(75, 100, Gdx.graphics.getWidth() / 4 - 32, 70, "turret.png");
+        arTurret[1] = new Dude(75, 100, Gdx.graphics.getWidth() / 2 - 32, 70, "turret.png");
+        arTurret[2] = new Dude(75, 100, Gdx.graphics.getWidth() / 4 * 3 - 32, 70, "turret.png");
         txSheet = new Texture("Vlad.png");
         txDoor = new Texture("Door.png");
         sprDoor = new Sprite(txDoor);
+        dudGuard = new Dude(45, 75, 200, 200, "Guard.png");
         
         sprDoor.setSize(75, 75);
         sprDoor.setFlip(false, true);
         sprDoor.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight()/2);
-        tbDoor = new Textbox(350, 125, Gdx.graphics.getWidth() / 2 - 175, -40);
+        tbDoor = new Textbox(380, 125, Gdx.graphics.getWidth() / 2 - 190, -40);
         batch = new SpriteBatch();
         btnMenu = new Button(100, 50, 0, 0, "Menu.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
@@ -81,7 +86,7 @@ public class ScrPlay implements Screen, InputProcessor {
 
         }
         sprHD = new Sprite(txDoor, 0, 0, fW, fH);
-        sprHD.setPosition(0, Gdx.graphics.getHeight() / 2);
+        sprHD.setPosition(50, Gdx.graphics.getHeight() / 2);
         
         Gdx.input.setInputProcessor(this);
     }
@@ -103,8 +108,11 @@ public class ScrPlay implements Screen, InputProcessor {
         }
         if(isHitS(sprHD, dudGhost)){
             nTrig = 2;
-        } 
-        if(! isHitS(sprHD, dudGhost) && ! isHitS(sprHD, sprDoor)){
+        }
+        if(isHitS(sprHD, dudGuard)){
+            nTrig = 3;
+        }
+        if(! isHitS(sprHD, dudGhost) && ! isHitS(sprHD, sprDoor) && ! isHitS(sprHD, dudGuard)){
             nTrig = 0;
         }
         if(nTrig == 1 && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
@@ -143,18 +151,26 @@ public class ScrPlay implements Screen, InputProcessor {
             nFrame--;
         }
         
-        /*for (int i = 0; i < arWall.length; i++) {
-            if (isHitS(dud1, arWall[i])) {
-                dud1.setPosition(fSx, fSy);
+        for (int i = 0; i < arWall.length; i++) {
+            if (isHitS(sprHD, arWall[i])) {
+                sprHD.setPosition(fSx, fSy);
             }
-        }*/
+        }
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
-        batch.draw(trTemp, fSx, fSy);
+        for (int i = 0; i < arWall.length; i++) {
+            arWall[i].draw(batch);
+        }
+        for (int i = 0; i < arTurret.length; i++) {
+            arTurret[i].draw(batch);
+        }
         btnMenu.draw(batch);
         btnQuit.draw(batch);
         sprDoor.draw(batch);
+        dudGuard.draw(batch);
         dudGhost.draw(batch);
+        batch.draw(trTemp, fSx, fSy);
+        
         //dud1.draw(batch);
         if(nTrig == 1){
             tbDoor.draw(batch);
@@ -164,10 +180,12 @@ public class ScrPlay implements Screen, InputProcessor {
             tbDoor.draw(batch);
             bmf.setColor(Color.BLACK);
             bmf.draw(batch, sGhost, Gdx.graphics.getWidth() / 2 - 110, 20);
+        }else if(nTrig == 3){
+            tbDoor.draw(batch);
+            bmf.setColor(Color.BLACK);
+            bmf.draw(batch, sGuard, Gdx.graphics.getWidth() / 2 - 125, 20);
         }
-        /*for (int i = 0; i < arWall.length; i++) {
-            arWall[i].draw(batch);
-        }*/
+        
         
         batch.end();
 

@@ -6,6 +6,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -15,9 +17,11 @@ public class ScrMenu implements Screen, InputProcessor {
 
     Button btnPlay, btnQuit;
     GamMenu gamMenu;
+    String sMove = "Use the arrow keys to move";
     Texture txButtonP, txButtonT;
     OrthographicCamera oc;
     SpriteBatch batch;
+    BitmapFont bmf;
 
     public ScrMenu(GamMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
@@ -28,6 +32,7 @@ public class ScrMenu implements Screen, InputProcessor {
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
+        bmf = new BitmapFont(true);
         batch = new SpriteBatch();
         btnPlay = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 200, "Play.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 350, "Quit.jpg");
@@ -42,6 +47,7 @@ public class ScrMenu implements Screen, InputProcessor {
         batch.setProjectionMatrix(oc.combined);
         btnPlay.draw(batch);
         btnQuit.draw(batch);
+        
         batch.end();
     }
 

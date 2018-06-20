@@ -1,5 +1,6 @@
 package gdx.menu.Screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import gdx.menu.GamMenu;
 
@@ -19,7 +21,12 @@ public class ScrAniHit implements Screen, InputProcessor{
     OrthographicCamera oc;
     Button btnMenu, btnQuit;
     TextureRegion trTemp;
+    BitmapFont bmf;
+    int nTrig = 0;
+    String sDoor;
+    Dude dudDoor, dudPolo;
     Texture txSheet;
+    Textbox tbDoor;
     Sprite sprDude, sprAni;   //sprAni is a ghost, a sprite used for hit detection
     int nFrame, nPos, nX = 100, nY = 100;   //nX and nY coordinates for sprAni
     Animation araniDude[];
@@ -37,14 +44,18 @@ public class ScrAniHit implements Screen, InputProcessor{
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
+        sDoor = "Press Enter to go through";
+        bmf = new BitmapFont(true);
+        tbDoor = new Textbox(440, 125, Gdx.graphics.getWidth() / 2 - 220, -40);
         //Buttons
-        btnMenu = new Button(100, 50, Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() - 50, "Menu.jpg");
+        dudDoor = new Dude(75, 75, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() / 2 - 50, "Door.png");
+        btnMenu = new Button(100, 50, 0, 0, "Menu.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         txSheet = new Texture("Vlad.png");
-        arWall[0] = new Wall(Gdx.graphics.getWidth(), 50, 0, 50);   //Top Wall
-        arWall[1] = new Wall(Gdx.graphics.getWidth(), 50, 0, Gdx.graphics.getHeight() - 100);    //Bottom Wall
-        arWall[2] = new Wall(50, Gdx.graphics.getHeight() - 200, 0, 100);   //Left Wall
-        arWall[3] = new Wall(50, Gdx.graphics.getHeight() - 200, Gdx.graphics.getWidth() - 50, 100);    //Right Wall
+        arWall[0] = new Wall(Gdx.graphics.getWidth(), 25, 0, 120);    //Top Wall
+        arWall[1] = new Wall(25, Gdx.graphics.getHeight() - 300, Gdx.graphics.getWidth() - 25, 120);   //Right Wall
+        arWall[2] = new Wall(25, Gdx.graphics.getHeight() - 300, 0, 120);     //Left Wall
+        arWall[3] = new Wall(Gdx.graphics.getWidth(), 25, 0, 300);       //Bottom Wall
         
         //Animation Stuff
         nFrame = 0;
@@ -71,7 +82,7 @@ public class ScrAniHit implements Screen, InputProcessor{
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 0, 1, 1); //Purple background.
+        Gdx.gl.glClearColor(.135f, .206f, .235f, 1); //Blue background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float fSx = sprAni.getX();
         float fSy = sprAni.getY();
@@ -83,22 +94,22 @@ public class ScrAniHit implements Screen, InputProcessor{
         trTemp = araniDude[nPos].getKeyFrame(nFrame, false);
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             //nX = nX-=1;
-            sprAni.setX(sprAni.getX() - 1);
+            sprAni.setX(sprAni.getX() - 3);
             nPos = 7;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             //nX = nX+=1;
-            sprAni.setX(sprAni.getX() + 1);
+            sprAni.setX(sprAni.getX() + 3);
             nPos = 0;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.UP)){
             //nY = nY-=1;
-            sprAni.setY(sprAni.getY() - 1);
+            sprAni.setY(sprAni.getY() - 3);
             nPos = 1;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             //nY = nY+=1;
-            sprAni.setY(sprAni.getY() + 1);
+            sprAni.setY(sprAni.getY() + 3);
             nPos = 4;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.UP)){
@@ -119,14 +130,27 @@ public class ScrAniHit implements Screen, InputProcessor{
                 sprAni.setPosition(fSx, fSy);
             }
         }
-        
+        if(isHitS(sprAni, dudDoor)){
+            nTrig = 1;
+        }else{
+            nTrig = 0;
+        }
+        if(nTrig == 1 && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+            gamMenu.updateState(5);
+        }
         batch.begin();
+        dudDoor.draw(batch);
         batch.setProjectionMatrix(oc.combined);
         btnMenu.draw(batch);
         btnQuit.draw(batch);
         batch.draw(trTemp, fSx, fSy);
         for(int i = 0; i < arWall.length; i++){
             arWall[i].draw(batch);
+        }
+        if(nTrig == 1){
+            tbDoor.draw(batch);
+            bmf.setColor(Color.BLACK);
+            bmf.draw(batch, sDoor, Gdx.graphics.getWidth() / 2 - 70, 20);
         }
         batch.end();
     }
