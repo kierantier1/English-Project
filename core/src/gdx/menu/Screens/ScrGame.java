@@ -11,17 +11,22 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.Color;
 import gdx.menu.GamMenu;
 
 public class ScrGame implements Screen, InputProcessor{
     SpriteBatch batch;
     GamMenu gamMenu;
+    BitmapFont bmf;
     OrthographicCamera oc;
     Button btnMenu, btnQuit;
     TextureRegion trTemp;
+    Textbox tbDone;
     Texture txSheet, txMap, txSign, txTextbox1, txTextbox2, txTextbox3, txHouse;
     Sprite sprDude, sprAni, sprMap, sprSign, sprHouse;   //sprAni is a ghost, a sprite used for hit detection, maybe a bit redundant
     Sprite arsprTextbox[] = new Sprite[3];
+    String sGame = "Since we only read to this point, That's the end!";
     int nFrame, nPos, nX = 100, nY = 100, nTrig = 0;
     Animation araniDude[];
     int fW, fH, fSx, fSy;
@@ -35,10 +40,12 @@ public class ScrGame implements Screen, InputProcessor{
     @Override
     public void show() {
         batch = new SpriteBatch();
+        bmf = new BitmapFont(true);
+        tbDone = new Textbox(440, 125, Gdx.graphics.getWidth() / 2 - 220, -40);
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
-        btnMenu = new Button(100, 50, Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() - 50, "Menu.jpg");
+        btnMenu = new Button(100, 50, 0, 0, "Menu.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         txSheet = new Texture("Vlad.png");
         txTextbox1 = new Texture("Textbox.png");
@@ -96,7 +103,7 @@ public class ScrGame implements Screen, InputProcessor{
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 0, 1, 1); //Purple background.
+        Gdx.gl.glClearColor(.135f, .206f, .235f, 1); //Purple background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float fSx = sprAni.getX();
         float fSy = sprAni.getY();
@@ -124,22 +131,22 @@ public class ScrGame implements Screen, InputProcessor{
         trTemp = araniDude[nPos].getKeyFrame(nFrame, false);
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             //nX = nX-=1;
-            sprAni.setX(sprAni.getX() - 1);
+            sprAni.setX(sprAni.getX() - 3);
             nPos = 7;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             //nX = nX+=1;
-            sprAni.setX(sprAni.getX() + 1);
+            sprAni.setX(sprAni.getX() + 3);
             nPos = 0;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.UP)){
             //nY = nY-=1;
-            sprAni.setY(sprAni.getY() - 1);
+            sprAni.setY(sprAni.getY() - 3);
             nPos = 1;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             //nY = nY+=1;
-            sprAni.setY(sprAni.getY() + 1);
+            sprAni.setY(sprAni.getY() + 3);
             nPos = 4;
             nFrame++;
         } if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.UP)){
@@ -163,22 +170,19 @@ public class ScrGame implements Screen, InputProcessor{
         
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
-        sprMap.draw(batch);
+        //sprMap.draw(batch);
         btnMenu.draw(batch);
         btnQuit.draw(batch);
-        sprSign.draw(batch);
-        sprHouse.draw(batch);
+        tbDone.draw(batch);
+        bmf.setColor(Color.BLACK);
+        bmf.draw(batch, sGame,Gdx.graphics.getWidth() / 2 - 140, 20);
+        //sprSign.draw(batch);
+        //sprHouse.draw(batch);
         batch.draw(trTemp, fSx, fSy);
-        for(int i = 0; i < arWall.length; i++){
-        arWall[i].draw(batch);
-        }
-        if(nTrig == 1){
-            arsprTextbox[0].draw(batch);
-        } else if(nTrig == 3){
-            arsprTextbox[1].draw(batch);
-        } else if(nTrig == 4){
-            arsprTextbox[2].draw(batch);
-        }
+        //for(int i = 0; i < arWall.length; i++){
+        //arWall[i].draw(batch);
+        //}
+        
         batch.end();
     }
 

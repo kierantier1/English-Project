@@ -58,10 +58,10 @@ public class ScrSign implements Screen, InputProcessor {
         txSheet = new Texture("Vlad.png");
         dudKing = new Dude(75, 100, 300, 100, "King.png");
         dudThrone = new Dude(75, 100, 200, 100, "Throne.png");
-        dudQueen = new Dude(50, 75, 450, 100, "Queen.png");
+        dudQueen = new Dude(50, 75, 400, 200, "Queen.png");
         tbDoor = new Textbox(440, 125, Gdx.graphics.getWidth() / 2 - 220, -40);
         sprDoor = new Sprite(txDoor);
-        sprDoor.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() / 2 - 50);
+        sprDoor.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight()/2);
         sprDoor.setSize(75, 75);
         sprDoor.setFlip(false, true);        
         //Animation Stuff
@@ -155,9 +155,10 @@ public class ScrSign implements Screen, InputProcessor {
         dudThrone.draw(batch);
         dudKing.draw(batch);
         dudQueen.draw(batch);
+        sprDoor.draw(batch);
         batch.setProjectionMatrix(oc.combined);
         batch.draw(trTemp, fSx, fSy);
-        sprDoor.draw(batch);
+        
         btnMenu.draw(batch);
         
         if(nTrig == 1){

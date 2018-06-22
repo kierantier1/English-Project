@@ -23,8 +23,8 @@ public class ScrAniHit implements Screen, InputProcessor{
     TextureRegion trTemp;
     BitmapFont bmf;
     int nTrig = 0;
-    String sDoor;
-    Dude dudDoor, dudPolo;
+    String sDoor, sQueen, sPolo;
+    Dude dudDoor, dudPolo, dudQueen;
     Texture txSheet;
     Textbox tbDoor;
     Sprite sprDude, sprAni;   //sprAni is a ghost, a sprite used for hit detection
@@ -44,11 +44,13 @@ public class ScrAniHit implements Screen, InputProcessor{
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
-        sDoor = "Press Enter to go through";
+        sDoor = "What are you doing? Take your vengeance!";
+        sQueen = "Hamlet! What are you doing in my room?";
+        sPolo = "Press Enter to stab through the tapestry";
         bmf = new BitmapFont(true);
         tbDoor = new Textbox(440, 125, Gdx.graphics.getWidth() / 2 - 220, -40);
         //Buttons
-        dudDoor = new Dude(75, 75, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() / 2 - 50, "Door.png");
+        dudDoor = new Dude(75, 75, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight()/2, "Door.png");
         btnMenu = new Button(100, 50, 0, 0, "Menu.jpg");
         btnQuit = new Button(100, 50, Gdx.graphics.getWidth() - 100, 0, "Quit.jpg");
         txSheet = new Texture("Vlad.png");
@@ -56,7 +58,8 @@ public class ScrAniHit implements Screen, InputProcessor{
         arWall[1] = new Wall(25, Gdx.graphics.getHeight() - 300, Gdx.graphics.getWidth() - 25, 120);   //Right Wall
         arWall[2] = new Wall(25, Gdx.graphics.getHeight() - 300, 0, 120);     //Left Wall
         arWall[3] = new Wall(Gdx.graphics.getWidth(), 25, 0, 300);       //Bottom Wall
-        
+        dudQueen = new Dude(50, 75, 100, 200, "Queen.png");
+        dudPolo = new Dude(50, 75, 300, 120, "Tapestry.png");
         //Animation Stuff
         nFrame = 0;
         nPos = 0;
@@ -76,7 +79,7 @@ public class ScrAniHit implements Screen, InputProcessor{
 
         }
         sprAni = new Sprite(txSheet, 0, 0, fW, fH); //this sprite is never drawn, just used for Hit detection of the animation
-        sprAni.setPosition(200, 200);
+        sprAni.setPosition(50, 200);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -132,25 +135,41 @@ public class ScrAniHit implements Screen, InputProcessor{
         }
         if(isHitS(sprAni, dudDoor)){
             nTrig = 1;
-        }else{
+        }else if(isHitS(sprAni, dudQueen)){
+            nTrig = 2;
+        }else if(isHitS(sprAni, dudPolo)){
+            nTrig = 3;
+        }else if(!isHitS(sprAni, dudDoor) && !isHitS(sprAni, dudQueen) && !isHitS(sprAni, dudPolo)){
             nTrig = 0;
         }
-        if(nTrig == 1 && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+        if(nTrig == 3 && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
             gamMenu.updateState(5);
         }
         batch.begin();
         dudDoor.draw(batch);
+        dudQueen.draw(batch);
+        
         batch.setProjectionMatrix(oc.combined);
         btnMenu.draw(batch);
         btnQuit.draw(batch);
-        batch.draw(trTemp, fSx, fSy);
+       
         for(int i = 0; i < arWall.length; i++){
             arWall[i].draw(batch);
         }
+        dudPolo.draw(batch);
+         batch.draw(trTemp, fSx, fSy);
         if(nTrig == 1){
             tbDoor.draw(batch);
             bmf.setColor(Color.BLACK);
-            bmf.draw(batch, sDoor, Gdx.graphics.getWidth() / 2 - 70, 20);
+            bmf.draw(batch, sDoor, Gdx.graphics.getWidth() / 2 - 120, 20);
+        }else if(nTrig == 2){
+            tbDoor.draw(batch);
+            bmf.setColor(Color.BLACK);
+            bmf.draw(batch, sQueen, Gdx.graphics.getWidth() / 2 - 120, 20);
+        }else if(nTrig == 3){
+            tbDoor.draw(batch);
+            bmf.setColor(Color.BLACK);
+            bmf.draw(batch, sPolo, Gdx.graphics.getWidth() / 2 - 115, 20);
         }
         batch.end();
     }

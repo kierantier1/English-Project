@@ -23,7 +23,7 @@ public class ScrAnimation implements Screen, InputProcessor {
     Texture txButtonM, txButtonQ, txSheet, txDoor, txTB;
     Animation araniDude[];
     BitmapFont bmf;
-    Dude dudKing, dudSign;
+    Dude dudKing, dudSign, dudStage;
     String sDoor, sKing1, sKing2, sSign;
     TextureRegion trTemp;
     int fW, fH, fSx, fSy;
@@ -58,9 +58,10 @@ public class ScrAnimation implements Screen, InputProcessor {
         txSheet = new Texture("Vlad.png");
         dudKing = new Dude(75, 100, 300, 100, "King.png");
         dudSign = new Dude(50, 50, 420, 150, "Sign.png");
+        dudStage  = new Dude(155, 155, 25, 145, "Stage.png");
         tbDoor = new Textbox(440, 125, Gdx.graphics.getWidth() / 2 - 220, -40);
         sprDoor = new Sprite(txDoor);
-        sprDoor.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() / 2 - 50);
+        sprDoor.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight()/2);
         sprDoor.setSize(75, 75);
         sprDoor.setFlip(false, true);        
         //Animation Stuff
@@ -154,6 +155,7 @@ public class ScrAnimation implements Screen, InputProcessor {
         dudKing.draw(batch);
         batch.setProjectionMatrix(oc.combined);
         dudSign.draw(batch);
+        dudStage.draw(batch);
         batch.draw(trTemp, fSx, fSy);
         
         sprDoor.draw(batch);

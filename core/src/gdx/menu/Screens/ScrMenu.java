@@ -14,10 +14,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import gdx.menu.GamMenu;
 
 public class ScrMenu implements Screen, InputProcessor {
-
+    Dude dudTitle;
     Button btnPlay, btnQuit;
     GamMenu gamMenu;
-    String sMove = "Use the arrow keys to move";
+    String sMove = "English Project by Kieran Halliday";
     Texture txButtonP, txButtonT;
     OrthographicCamera oc;
     SpriteBatch batch;
@@ -32,10 +32,12 @@ public class ScrMenu implements Screen, InputProcessor {
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
+        dudTitle = new Dude(200, 100, Gdx.graphics.getWidth() / 2 - 100, 100, "Hamlet.png");
         bmf = new BitmapFont(true);
         batch = new SpriteBatch();
         btnPlay = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 200, "Play.jpg");
-        btnQuit = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 350, "Quit.jpg");
+        btnQuit = new Button(100, 50, Gdx.graphics.getWidth()/2 - 50, 320, "Quit.jpg");
+        
         Gdx.input.setInputProcessor(this);
     }
 
@@ -44,6 +46,9 @@ public class ScrMenu implements Screen, InputProcessor {
         Gdx.gl.glClearColor(0, 1, 0, 1); //Green background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+        dudTitle.draw(batch);
+        bmf.setColor(Color.BLACK);
+        bmf.draw(batch, sMove, Gdx.graphics.getWidth() / 2 - 100, 400);
         batch.setProjectionMatrix(oc.combined);
         btnPlay.draw(batch);
         btnQuit.draw(batch);
